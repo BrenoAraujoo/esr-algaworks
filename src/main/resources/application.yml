@@ -1,0 +1,28 @@
+spring:
+  profiles:
+    active: dev
+  output:
+    ansi:
+      enabled: ALWAYS
+  flyway:
+    locations: classpath:db/migration, classpath:db/testdata
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+      fail-on-ignored-properties: true
+#  datasource:
+#    hikari:
+#      maximum-pool-size: 5
+#      minimum-idle: 3
+#      idle-timeout: 10000
+
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: DEBUG
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: TRACE
+

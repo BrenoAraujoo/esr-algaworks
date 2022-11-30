@@ -1,15 +1,28 @@
 spring:
+  #Habilita lançamento de exceptions NoHandlerFoundException
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  #Define perfil
   profiles:
     active: dev
+  #Formata saída colorida no console
   output:
     ansi:
       enabled: ALWAYS
+  #Configuração do flyway
   flyway:
     locations: classpath:db/migration, classpath:db/testdata
+  #Configuração do Jackson para habilitar lançamento de excpetions conforme atributos abaixo
   jackson:
     deserialization:
       fail-on-unknown-properties: true
       fail-on-ignored-properties: true
+
+
+
 #  datasource:
 #    hikari:
 #      maximum-pool-size: 5

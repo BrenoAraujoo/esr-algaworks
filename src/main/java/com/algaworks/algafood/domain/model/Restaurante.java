@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,9 +22,14 @@ public class Restaurante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
+    @NotBlank
     private String nome;
+
     @Column(nullable = false)
+    @NotNull(message = "Taxa frete tem que ser cobrada")
+    @PositiveOrZero
     private BigDecimal taxaFrete;
 
 //    @JsonIgnore

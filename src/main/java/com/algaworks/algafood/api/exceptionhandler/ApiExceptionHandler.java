@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.TypeMismatchException;
@@ -14,6 +15,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -225,6 +229,33 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid
+            (MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        BindingResult bindingResult = ex.getBindingResult();
+
+        List<Problem.Field> problemFields = bindingResult.getFieldErrors().stream()
+                .map(fieldError -> Problem.Field.builder()
+                        .name(fieldError.getField())
+                        .userMessage(fieldError.getDefaultMessage())
+                        .build())
+                .toList();
+
+        String fieldErrors = joinField(problemFields);
+
+        String detail = String.format("O atributo '%s' não pode ser null", fieldErrors);
+
+        ProblemType problemType = ProblemType.DADOS_INVALIDOS;
+
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .fields(problemFields)
+                .userMessage("Um ou mais atributos não foram informados ou estão com valor null." +
+                        " Por favor, corrija e tente novamente")
+                .build();
+
+        return handleExceptionInternal(ex, problem, headers, status, request);
+    }
 
     //Minha implementação
     private String joinPath(JsonMappingException ex) {
@@ -232,8 +263,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         var references = ex.getPath();
         return references
                 .stream()
-                .map(ref -> ref.getFieldName())
+                .map(JsonMappingException.Reference::getFieldName)
                 .collect(Collectors.joining("."));
+    }
+
+    private String joinField(List<Problem.Field> list){
+        return list.stream()
+                .map(Problem.Field::getName)
+                .collect(Collectors.joining(" e "));
+
     }
 
     private Problem.ProblemBuilder createProblemBuilder

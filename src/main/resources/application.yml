@@ -15,7 +15,7 @@ spring:
   #Configuração do flyway
   flyway:
     locations: classpath:db/migration, classpath:db/testdata
-  #Configuração do Jackson para habilitar lançamento de excpetions conforme atributos abaixo
+  #Configuração do Jackson para habilitar lançamento de exceptions conforme atributos abaixo
   jackson:
     deserialization:
       fail-on-unknown-properties: true

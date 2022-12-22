@@ -7,9 +7,9 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 @Getter
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Problem {
 
     private Integer status;
@@ -20,11 +20,14 @@ public class Problem {
     private String userMessage;
     private LocalDateTime timestamp;
 
-    List<Field> fields;
+    private List<Field> fields;
+
+
     @Getter
     @Builder
     public static class Field{
         private String name;
         private String userMessage;
     }
+
 }

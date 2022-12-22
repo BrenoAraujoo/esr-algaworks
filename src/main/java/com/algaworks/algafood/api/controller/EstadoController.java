@@ -7,6 +7,7 @@ import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.algaworks.algafood.domain.model.repository.EstadoRepository;
 import com.algaworks.algafood.domain.service.CadastroEstadoService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class EstadoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Estado salvar(@RequestBody Estado estado) {
+    public Estado salvar(@RequestBody @Valid Estado estado) {
         try {
             return estadoService.salvar(estado);
         }catch (EntidadeNaoEncontradaException e){
@@ -45,7 +46,7 @@ public class EstadoController {
     }
 
     @PutMapping("/{id}")
-    public Estado atualizar(@PathVariable Long id, @RequestBody Estado estado) {
+    public Estado atualizar(@PathVariable Long id, @RequestBody @Valid Estado estado) {
         var estadoAtual = estadoService.buscarOuFalhar(id);
         BeanUtils.copyProperties(estado,estadoAtual,"id");
         return estadoRespository.save(estadoAtual);

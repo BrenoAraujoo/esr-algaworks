@@ -1,13 +1,17 @@
 package com.algaworks.algafood.domain.model;
 
 
+import com.algaworks.algafood.api.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -33,6 +37,8 @@ public class Restaurante {
     private BigDecimal taxaFrete;
 
 //    @JsonIgnore
+    @ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
+    @Valid
     @ManyToOne
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;

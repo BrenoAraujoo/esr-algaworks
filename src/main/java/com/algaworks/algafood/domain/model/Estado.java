@@ -20,7 +20,7 @@ public class Estado {
     private Long id;
 
     @Column(nullable = false)
-    @NotBlank(message = "Nome do estado não pode ser vazio")
+    @NotBlank
     private String nome;
 
 

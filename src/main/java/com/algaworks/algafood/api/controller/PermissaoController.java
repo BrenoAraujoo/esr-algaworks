@@ -8,6 +8,7 @@ import com.algaworks.algafood.domain.model.repository.PermissaoRepository;
 import com.algaworks.algafood.domain.service.CadastroPermissaoService;
 import com.mysql.cj.log.Log;
 import java.util.List;
+import javax.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class PermissaoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Permissao adicionar(@RequestBody Permissao permissao) {
+    public Permissao adicionar(@RequestBody @Valid Permissao permissao) {
         return permissaoService.salvar(permissao);
     }
 

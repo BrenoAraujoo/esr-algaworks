@@ -17,7 +17,7 @@ public class Cozinha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Nome da cozinha não pode ser vaziao")
+    @NotBlank
     @Column
     private String nome;
 

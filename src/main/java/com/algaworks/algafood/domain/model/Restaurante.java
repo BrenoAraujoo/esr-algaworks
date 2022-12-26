@@ -23,6 +23,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 public class Restaurante {
 
+    @NotNull(groups = Groups.RestauranteId.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,7 +33,7 @@ public class Restaurante {
     private String nome;
 
     @Column(nullable = false)
-    @NotNull(message = "Taxa frete tem que ser cobrada")
+    @NotNull
     @PositiveOrZero
     private BigDecimal taxaFrete;
 

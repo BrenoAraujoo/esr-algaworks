@@ -7,6 +7,7 @@ import com.algaworks.algafood.domain.model.exception.ProdutoNaoEncontratoExcepti
 import com.algaworks.algafood.domain.model.repository.ProdutoRespository;
 import com.algaworks.algafood.domain.service.CadastroProdutoService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class ProdutoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Produto salvar(@RequestBody Produto produto) {
+    public Produto salvar(@RequestBody @Valid Produto produto) {
         return produtoService.salvar(produto);
     }
 

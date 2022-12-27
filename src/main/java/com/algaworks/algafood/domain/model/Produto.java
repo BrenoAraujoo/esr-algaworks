@@ -1,8 +1,6 @@
 package com.algaworks.algafood.domain.model;
 
-import com.algaworks.algafood.api.Groups;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.algaworks.algafood.core.validation.Groups;
 import java.math.BigDecimal;
 import javax.persistence.*;
 import javax.validation.Valid;

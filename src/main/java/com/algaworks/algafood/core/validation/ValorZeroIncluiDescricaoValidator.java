@@ -1,10 +1,10 @@
 package com.algaworks.algafood.core.validation;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ValidationException;
-import org.springframework.beans.BeanUtils;
 
 public class ValorZeroIncluiDescricaoValidator implements ConstraintValidator<ValorZeroIncluiDescricao, Object> {
 
@@ -12,24 +12,36 @@ public class ValorZeroIncluiDescricaoValidator implements ConstraintValidator<Va
     private String descricaoField;
     private String descricaoObrigatoria;
 
+    private BigDecimal valorValidado;
+    private String nomeValidado;
+
     @Override
     public void initialize(ValorZeroIncluiDescricao constraint) {
         this.valorField = constraint.valorField();
         this.descricaoField = constraint.descricaoField();
         this.descricaoObrigatoria = constraint.descricaoObrigatoria();
     }
+
+
     @Override
     public boolean isValid(Object objetoValidacao, ConstraintValidatorContext context) {
-        boolean valido = true;
+        boolean valido = false;
+        Method[] methods = objetoValidacao.getClass().getDeclaredMethods();
         try {
-            var valor = (BigDecimal) BeanUtils.getPropertyDescriptor(objetoValidacao.getClass(), valorField)
-                    .getReadMethod().invoke(objetoValidacao);
+            var descricao = objetoValidacao.getClass().getAnnotation(ValorZeroIncluiDescricao.class)
+                    .descricaoField();
 
-            var descricao = (String) BeanUtils.getPropertyDescriptor(objetoValidacao.getClass(), descricaoField)
-                    .getReadMethod().invoke(objetoValidacao);
+            for (Method method : methods) {
+                if (method.getName().equals("getTaxaFrete")) {
+                    valorValidado = (BigDecimal) method.invoke(objetoValidacao);
+                }
+                if (method.getName().equals("getNome")) {
+                    nomeValidado = (String) method.invoke(objetoValidacao);
+                }
+            }
 
-            if (valor != null && BigDecimal.ZERO.compareTo(valor) == 0 && descricao != null) {
-                valido = descricao.toLowerCase().contains(this.descricaoObrigatoria.toLowerCase());
+            if(valorValidado != null && BigDecimal.ZERO.compareTo(valorValidado) == 0 && nomeValidado != null){
+                valido = nomeValidado.toLowerCase().contains(this.descricaoObrigatoria.toLowerCase());
             }
             return valido;
 
@@ -37,4 +49,35 @@ public class ValorZeroIncluiDescricaoValidator implements ConstraintValidator<Va
             throw new ValidationException(e);
         }
     }
+
+
+/*
+
+// Minha implementação com reflection
+    @Override
+    public boolean isValid(Object objetoValidacao, ConstraintValidatorContext context) {
+        boolean valido = true;
+        Method[] metodos = objetoValidacao.getClass().getDeclaredMethods();
+        try {
+            String descricao = objetoValidacao.getClass().getAnnotation(ValorZeroIncluiDescricao.class).descricaoField();
+
+            for (Method method : metodos) {
+                if (method.getName().equals("getTaxaFrete")) {
+                    valorValidado = (BigDecimal) method.invoke(objetoValidacao);
+                }
+                if (method.getName().equals("getNome")) {
+                    nomeValidado = (String) method.invoke(objetoValidacao);
+                }
+            }
+            if (valorValidado != null && BigDecimal.ZERO.compareTo(valorValidado) == 0 && nomeValidado != null) {
+                valido = nomeValidado.toLowerCase().contains(this.descricaoObrigatoria.toLowerCase());
+            }
+            return valido;
+
+        } catch (Exception e) {
+            throw new ValidationException(e);
+        }
+    }
+*/
+
 }

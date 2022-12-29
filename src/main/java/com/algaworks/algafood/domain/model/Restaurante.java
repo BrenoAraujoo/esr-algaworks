@@ -2,6 +2,8 @@ package com.algaworks.algafood.domain.model;
 
 
 import com.algaworks.algafood.core.validation.Groups;
+import com.algaworks.algafood.core.validation.Multiplo;
+import com.algaworks.algafood.core.validation.ValorZeroIncluiDescricao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,6 +20,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 
+@ValorZeroIncluiDescricao
+        (valorField = "taxaFrete",message = "Mensagem padrao",descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -34,7 +38,7 @@ public class Restaurante {
 
     @Column(nullable = false)
     @NotNull
-    @PositiveOrZero
+//    @Multiplo(numero = 5)
     private BigDecimal taxaFrete;
 
 //    @JsonIgnore
@@ -68,5 +72,6 @@ public class Restaurante {
     @JsonIgnore
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos = new ArrayList<>();
+
 
 }

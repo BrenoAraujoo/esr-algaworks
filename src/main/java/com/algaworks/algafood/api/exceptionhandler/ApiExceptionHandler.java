@@ -255,13 +255,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         String fieldErrors = joinField(problemFields);
 
-        String detail = String.format("O atributo '%s' não pode ser null", fieldErrors);
+        String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
 
         ProblemType problemType = ProblemType.DADOS_INVALIDOS;
 
         Problem problem = createProblemBuilder(status, problemType, detail)
                 .fields(problemFields)
-                .userMessage("Um ou mais atributos não foram informados ou estão com valor null." +
+                .userMessage("Um ou mais campos estão inválidos." +
                         " Por favor, corrija e tente novamente")
                 .build();
 

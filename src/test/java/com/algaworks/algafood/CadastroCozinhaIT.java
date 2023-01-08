@@ -3,13 +3,11 @@ package com.algaworks.algafood;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.repository.CozinhaRepository;
 import com.algaworks.algafood.util.DatabaseCleaner;
+import com.algaworks.algafood.util.ResourceUtils;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.response.ValidatableResponse;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,10 @@ import static org.hamcrest.Matchers.*;
 @TestPropertySource("/application-test.properties")
 class CadastroCozinhaIT {
 
+    private static final long ID_COZINHA_INEXISTENTE = 100L;
+    private String cozinhaIndiana;
+    private int quantidadeCozinhas;
+
     @LocalServerPort
     private int port;
 
@@ -33,13 +35,20 @@ class CadastroCozinhaIT {
 
     @Autowired
     private CozinhaRepository cozinhaRepository;
+    private int tamanhoCozinha;
+
     @BeforeEach
     public void setUp() {
         enableLoggingOfRequestAndResponseIfValidationFails();
+
         RestAssured.port = port;
         basePath = "/cozinhas";
         String pathParam = "/{cozinhaId}";
+
         databaseCleaner.clearTables();
+
+        cozinhaIndiana = ResourceUtils.getContentFromResource("/json/correto/cozinha-indiana.json");
+
         prepararDados();
     }
     @Test
@@ -54,12 +63,12 @@ class CadastroCozinhaIT {
                         .statusCode(HttpStatus.OK.value());
     }
     @Test
-    public void deveContar2Cozinhas_QuandoConsultarCozinhas(){
+    public void deveRetonarQuantidadeCorretaDeCozinhas_QuandoConsultarCozinhas(){
                 when()
                         .get()
                 .then()
                     .statusCode(HttpStatus.OK.value())
-                        .body("",hasSize(2))
+                        .body("",hasSize(tamanhoCozinha))
                         .body("nome",hasItems("Indiana","Francesa"));
 
     }
@@ -67,18 +76,18 @@ class CadastroCozinhaIT {
     @Test
     public void deveRetornarStatus201_QuandoCadastrarCozinha(){
         given()
-                    .body("{\"nome\": \"Nova cozinha\"}")
+                .body(cozinhaIndiana)
                     .contentType(ContentType.JSON)
                     .accept(ContentType.JSON)
                 .when()
                     .post()
                 .then()
                     .statusCode(HttpStatus.CREATED.value());
+        System.out.println(cozinhaIndiana);
     }
 
     @Test
     public void deveRetornarRespostaEStatusCorretos_QuandoConsultarCozinhaExistente(){
-
         given()
                 .pathParam("cozinhaId", 1)
                 .accept(ContentType.JSON)
@@ -92,7 +101,7 @@ class CadastroCozinhaIT {
     @Test
     public void deveRetornarStatus404_QuandoConsultarCozinhaInexistente(){
         given()
-                .pathParam("cozinhaId",100)
+                .pathParam("cozinhaId",ID_COZINHA_INEXISTENTE)
                 .accept(ContentType.JSON)
                 .when()
                     .get("/{cozinhaId}")
@@ -100,13 +109,21 @@ class CadastroCozinhaIT {
                     .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
+    @Test
+    public void teste(){
+        System.out.println("Cozinha indiana ->" + cozinhaIndiana);
+    }
+
+
     public void prepararDados(){
-        Cozinha cozinha1 = new Cozinha();
-        cozinha1.setNome("Indiana");
-        Cozinha cozinha2 = new Cozinha();
-        cozinha2.setNome("Francesa");
-        List<Cozinha> cozinaList = Arrays.asList(cozinha1,cozinha2);
+        Cozinha cozinhaTailandesa = new Cozinha();
+        cozinhaTailandesa.setNome("Tailandesa");
+        Cozinha cozinhaFrancesa = new Cozinha();
+        cozinhaFrancesa.setNome("Francesa");
+
+        List<Cozinha> cozinaList = Arrays.asList(cozinhaTailandesa,cozinhaFrancesa);
 
         cozinhaRepository.saveAll(cozinaList);
+        quantidadeCozinhas = (int) cozinhaRepository.count();
     }
 }

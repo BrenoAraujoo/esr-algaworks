@@ -1,10 +1,6 @@
 package com.algaworks.algafood;
 
-import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.model.repository.CustomJpaRepository;
 import com.algaworks.algafood.infrastructure.repository.CustomJpaRepositoryImpl;
-import java.lang.reflect.Field;
-import java.math.BigDecimal;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,6 +19,7 @@ public class AlgafoodApiApplication implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+
 
 	}
 }

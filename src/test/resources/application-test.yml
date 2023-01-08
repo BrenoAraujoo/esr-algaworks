@@ -1,22 +1,10 @@
 spring:
-  data-source:
+  datasource:
     url: jdbc:mysql://localhost/algafood_test?serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
     password: root
-
-
-
-
-
-spring:
-  #Habilita lançamento de exceptions NoHandlerFoundException
-  mvc:
-    throw-exception-if-no-handler-found: true
-  web:
-    resources:
-      add-mappings: false
-  output:
-    ansi:
-      enabled: ALWAYS
+    hikari:
+      maximum-pool-size: 1
   flyway:
     locations: classpath:db/migration
+

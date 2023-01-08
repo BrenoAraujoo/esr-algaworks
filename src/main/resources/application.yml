@@ -1,13 +1,22 @@
 spring:
+  datasource:
+    url: jdbc:mysql://localhost/algafood?serverTimezone=UTC&createDatabaseIfNotExist=true
+    username: root
+    password: root
+  jpa:
+    hibernate:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
   #Habilita lançamento de exceptions NoHandlerFoundException
   mvc:
     throw-exception-if-no-handler-found: true
   web:
     resources:
       add-mappings: false
-  #Define perfil
-  profiles:
-    active: dev
   #Formata saída colorida no console
   output:
     ansi:

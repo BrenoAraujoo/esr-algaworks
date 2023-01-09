@@ -1,0 +1,7 @@
+{
+  "nome": "Feijão de corda",
+  "taxaFrete": 12.00,
+  "cozinha": {
+    "id": 2
+  }
+}

@@ -25,7 +25,6 @@ class CadastroCozinhaIT {
 
     private static final long ID_COZINHA_INEXISTENTE = 100L;
     private String cozinhaIndiana;
-    private int quantidadeCozinhas;
 
     @LocalServerPort
     private int port;
@@ -69,7 +68,10 @@ class CadastroCozinhaIT {
                 .then()
                     .statusCode(HttpStatus.OK.value())
                         .body("",hasSize(tamanhoCozinha))
-                        .body("nome",hasItems("Indiana","Francesa"));
+                        .body("nome",hasItems("Tailandesa","Francesa"));
+
+
+        System.out.println("tamanho -> " + tamanhoCozinha);
 
     }
 
@@ -95,7 +97,7 @@ class CadastroCozinhaIT {
                     .get("/{cozinhaId}")
                 .then()
                     .statusCode(HttpStatus.OK.value()) // Validação de status
-                    .body("nome", equalTo("Indiana")); // Validação de corpo
+                    .body("nome", equalTo("Francesa")); // Validação de corpo
 
     }
     @Test
@@ -109,21 +111,17 @@ class CadastroCozinhaIT {
                     .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
-    @Test
-    public void teste(){
-        System.out.println("Cozinha indiana ->" + cozinhaIndiana);
-    }
-
 
     public void prepararDados(){
         Cozinha cozinhaTailandesa = new Cozinha();
         cozinhaTailandesa.setNome("Tailandesa");
+
         Cozinha cozinhaFrancesa = new Cozinha();
         cozinhaFrancesa.setNome("Francesa");
 
-        List<Cozinha> cozinaList = Arrays.asList(cozinhaTailandesa,cozinhaFrancesa);
+        List<Cozinha> cozinaList = Arrays.asList(cozinhaFrancesa,cozinhaTailandesa);
 
         cozinhaRepository.saveAll(cozinaList);
-        quantidadeCozinhas = (int) cozinhaRepository.count();
+        tamanhoCozinha = (int) cozinhaRepository.count();
     }
 }

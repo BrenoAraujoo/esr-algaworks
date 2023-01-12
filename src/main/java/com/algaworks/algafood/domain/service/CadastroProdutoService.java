@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CadastroProdutoService {
@@ -23,7 +24,7 @@ public class CadastroProdutoService {
     @Autowired
     private RestauranteRepository restauranteRepository;
 
-
+    @Transactional
     public Produto salvar(Produto produto){
         var restauranteId = produto.getRestaurante().getId();
 

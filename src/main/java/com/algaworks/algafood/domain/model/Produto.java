@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.model;
 
 import com.algaworks.algafood.core.validation.Groups;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -32,7 +33,6 @@ public class Produto {
     @Column(nullable = false)
     private Boolean ativo;
 
-//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "restaurante_id")
     @Valid

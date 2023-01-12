@@ -4,6 +4,7 @@ import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import java.time.LocalDateTime;
@@ -63,7 +64,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         } else if (rootCause instanceof PropertyBindingException) {
             return handlePropertyBinding((PropertyBindingException) rootCause, headers, status, request);
         }
-
 
         ProblemType problemType = ProblemType.ERRO_MENSAGEM_ILEGIVEL;
         String detail = "O corpo da requisição está inválido. Verifique erro de sintaxe.";
@@ -267,8 +267,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
-
-
 
     //Minha implementação
     private String joinPath(JsonMappingException ex) {

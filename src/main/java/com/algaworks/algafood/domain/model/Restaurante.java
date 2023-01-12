@@ -5,6 +5,7 @@ import com.algaworks.algafood.core.validation.Groups;
 import com.algaworks.algafood.core.validation.Multiplo;
 import com.algaworks.algafood.core.validation.ValorZeroIncluiDescricao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -31,7 +32,6 @@ public class Restaurante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     @NotBlank
     private String nome;
@@ -41,11 +41,11 @@ public class Restaurante {
 //    @Multiplo(numero = 5)
     private BigDecimal taxaFrete;
 
-//    @JsonIgnore
     @ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
     @Valid
     @ManyToOne
     @JoinColumn(name = "cozinha_id", nullable = false)
+    @JsonIgnoreProperties(value = "nome", allowGetters = true)
     private Cozinha cozinha;
 
     @Embedded

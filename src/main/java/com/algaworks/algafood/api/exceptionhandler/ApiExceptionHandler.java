@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -136,14 +137,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         // se o body é null, usamos no titulo da mensagem o ReasonPhrase do status
         if (body == null) {
             body = Problem.builder()
-                    .timestamp(LocalDateTime.now())
+                    .timestamp(OffsetDateTime.now())
                     .title(status.getReasonPhrase())
                     .userMessage(MSG_GENERICA_USUARIO_FINAL)
                     .status(status.value())
                     .build();
         } else if (body instanceof String) {
             body = Problem.builder()
-                    .timestamp(LocalDateTime.now())
+                    .timestamp(OffsetDateTime.now())
                     .userMessage(MSG_GENERICA_USUARIO_FINAL)
                     .title((String) body)
                     .status(status.value())
@@ -288,7 +289,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     private Problem.ProblemBuilder createProblemBuilder
             (HttpStatus status, ProblemType problemType, String detail) {
         return Problem.builder()
-                .timestamp(LocalDateTime.now())
+                .timestamp(OffsetDateTime.now())
                 .status(status.value())
                 .title(problemType.getTitle())
                 .type(problemType.getUri())

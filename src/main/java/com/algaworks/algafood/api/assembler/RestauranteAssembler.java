@@ -1,30 +1,28 @@
 package com.algaworks.algafood.api.assembler;
 
-import com.algaworks.algafood.api.model.dto.CozinhaDTO;
 import com.algaworks.algafood.api.model.dto.RestauranteDTO;
 import com.algaworks.algafood.domain.model.Restaurante;
 import java.util.Comparator;
 import java.util.List;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RestauranteAssembler {
 
+    @Autowired
+    private ModelMapper modelMapper;
+
+
+
     public  RestauranteDTO toDTO(Restaurante restaurante){
-        RestauranteDTO restauranteDTO = new RestauranteDTO();
-        CozinhaDTO cozinhaDTO = new CozinhaDTO();
 
-        cozinhaDTO.setId(restaurante.getCozinha().getId());
-        cozinhaDTO.setNome(restaurante.getCozinha().getNome());
-
-        restauranteDTO.setId(restaurante.getId());
-        restauranteDTO.setNome(restaurante.getNome());
-        restauranteDTO.setCozinha(cozinhaDTO);
-        restauranteDTO.setTaxaFrete(restaurante.getTaxaFrete());
-
-        return restauranteDTO;
+//        TypeMap<Restaurante, RestauranteDTO> typeMap = modelMapper.createTypeMap(Restaurante.class, RestauranteDTO.class);
+//        typeMap.addMapping(Restaurante::getNome,RestauranteDTO::setNome);
+        return modelMapper.map(restaurante,RestauranteDTO.class);
     }
-
 
     public List<RestauranteDTO> toCollectionDTO(List<Restaurante> restaurantes){
 

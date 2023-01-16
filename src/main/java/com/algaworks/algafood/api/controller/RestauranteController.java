@@ -4,7 +4,6 @@ import com.algaworks.algafood.api.assembler.RestauranteAssembler;
 import com.algaworks.algafood.api.disassembler.RestauranteDisassembler;
 import com.algaworks.algafood.api.model.dto.RestauranteDTO;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
-import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.model.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.model.exception.NegocioException;
@@ -42,13 +41,11 @@ public class RestauranteController {
         return restauranteAssembler.toCollectionDTO(restauranteRepository.findAll());
     }
 
-
     @GetMapping("/{id}")
     public RestauranteDTO buscar(@PathVariable Long id) {
         Restaurante restaurante = restauranteService.buscarOuFalhar(id);
         return restauranteAssembler.toDTO(restaurante);
     }
-
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -65,8 +62,8 @@ public class RestauranteController {
 
     @PutMapping("/{id}")
     public RestauranteDTO atualizar(@PathVariable Long id, @RequestBody @Valid RestauranteInput restauranteInput) {
-        Restaurante restauranteAtual = restauranteService.buscarOuFalhar(id);
-        Restaurante restaurante = restauranteDisassembler.toDomainObject(restauranteInput);
+        var restauranteAtual = restauranteService.buscarOuFalhar(id);
+        var restaurante = restauranteDisassembler.toDomainObject(restauranteInput);
         BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
         try {
             return restauranteAssembler.toDTO(restauranteService.salvar(restauranteAtual));

@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import com.algaworks.algafood.api.model.dto.RestauranteDTO;
+import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
@@ -33,6 +35,9 @@ public class CadastroRestauranteService {
         BeanUtils.copyProperties(cozinha,restaurante.getCozinha());
         return restauranteRepository.save(restaurante);
     }
+
+
+
 
     @Transactional
     public void remover(Long id) {

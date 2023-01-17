@@ -1,7 +1,10 @@
 package com.algaworks.algafood.core.modelmapper;
 
 
+import com.algaworks.algafood.api.model.dto.RestauranteDTO;
+import com.algaworks.algafood.domain.model.Restaurante;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,6 +12,15 @@ import org.springframework.context.annotation.Configuration;
 public class ModelMapperConfig {
     @Bean
     public ModelMapper modelMapper(){
-        return new ModelMapper();
+       var modelMapper = new ModelMapper();
+
+       modelMapper.typeMap(Restaurante.class, RestauranteDTO.class)
+               .addMappings(mapping -> {
+                   mapping.map(Restaurante::getNome,RestauranteDTO::setNomeDoRestauranteDTO);
+                   mapping.map(Restaurante::getId, RestauranteDTO::setIdRestauranteDTO);
+               });
+
+
+        return modelMapper;
     }
 }

@@ -7,8 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RestauranteDTO {
-    private Long id;
-    private String nome;
+    private Long idRestauranteDTO;
+
+    private String nomeDoRestauranteDTO;
     private BigDecimal taxaFrete;
     private CozinhaDTO cozinha;
 

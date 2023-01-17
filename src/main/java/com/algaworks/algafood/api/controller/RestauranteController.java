@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.assembler.RestauranteAssembler;
-import com.algaworks.algafood.api.disassembler.RestauranteDisassembler;
+import com.algaworks.algafood.api.assembler.restaurante.RestauranteAssembler;
+import com.algaworks.algafood.api.assembler.restaurante.RestauranteDisassembler;
 import com.algaworks.algafood.api.model.dto.RestauranteDTO;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.domain.model.Restaurante;
@@ -63,8 +63,12 @@ public class RestauranteController {
     @PutMapping("/{id}")
     public RestauranteDTO atualizar(@PathVariable Long id, @RequestBody @Valid RestauranteInput restauranteInput) {
         var restauranteAtual = restauranteService.buscarOuFalhar(id);
-        var restaurante = restauranteDisassembler.toDomainObject(restauranteInput);
-        BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
+
+//        var restaurante = restauranteDisassembler.toDomainObject(restauranteInput);
+        restauranteDisassembler.copyFromInputToDomainObject(restauranteInput,restauranteAtual);
+//        BeanUtils.copyProperties
+//                (restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
+
         try {
             return restauranteAssembler.toDTO(restauranteService.salvar(restauranteAtual));
 

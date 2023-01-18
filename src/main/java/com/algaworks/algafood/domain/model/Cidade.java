@@ -17,15 +17,12 @@ public class Cidade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(groups = Groups.CidadeId.class)
     private Long id;
 
     @Column(nullable = false)
-    @NotBlank
     private String nome;
 
     @Valid
-    @ConvertGroup(to = Groups.EstadoId.class)
     @ManyToOne
     private Estado estado;
 

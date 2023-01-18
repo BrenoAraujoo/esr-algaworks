@@ -13,13 +13,11 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Estado {
 
-    @NotNull(groups = Groups.EstadoId.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    @NotBlank
     private String nome;
 
 

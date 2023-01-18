@@ -1,5 +1,9 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.assembler.estado.EstadoAssembler;
+import com.algaworks.algafood.api.assembler.estado.EstadoDisassembler;
+import com.algaworks.algafood.api.model.dto.EstadoDTO;
+import com.algaworks.algafood.api.model.input.EstadoInput;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
@@ -24,32 +28,40 @@ public class EstadoController {
     @Autowired
     private CadastroEstadoService estadoService;
 
+    @Autowired
+    private EstadoAssembler estadoAssembler;
+
+    @Autowired
+    private EstadoDisassembler estadoDisassembler;
+
     @GetMapping
-    public List<Estado> listar() {
-        return estadoRespository.findAll();
+    public List<EstadoDTO> listar() {
+        return estadoAssembler.toCollectionDTO(estadoRespository.findAll());
     }
 
     @GetMapping("/{id}")
-    public Estado buscar(@PathVariable Long id) {
-        return estadoService.buscarOuFalhar(id);
+    public EstadoDTO buscar(@PathVariable Long id) {
+        return estadoAssembler.toDTO(estadoService.buscarOuFalhar(id));
 
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Estado salvar(@RequestBody @Valid Estado estado) {
+    public EstadoDTO salvar(@RequestBody @Valid EstadoInput estadoInput) {
+
+        Estado estado = estadoDisassembler.toDomainObject(estadoInput);
         try {
-            return estadoService.salvar(estado);
+            return estadoAssembler.toDTO(estadoService.salvar(estado));
         }catch (EntidadeNaoEncontradaException e){
             throw new NegocioException(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public Estado atualizar(@PathVariable Long id, @RequestBody @Valid Estado estado) {
+    public EstadoDTO atualizar(@PathVariable Long id, @RequestBody @Valid EstadoInput estadoInput) {
         var estadoAtual = estadoService.buscarOuFalhar(id);
-        BeanUtils.copyProperties(estado,estadoAtual,"id");
-        return estadoRespository.save(estadoAtual);
+        estadoDisassembler.copyFromInputToDomainObject(estadoInput, estadoAtual);
+        return estadoAssembler.toDTO(estadoService.salvar(estadoAtual));
 
     }
 

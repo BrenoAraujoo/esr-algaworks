@@ -16,14 +16,13 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Produto {
 
-    @NotNull(groups = Groups.ProdutoId.class)
+
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    @NotBlank
     private String nome;
 
 
@@ -36,6 +35,6 @@ public class Produto {
     @ManyToOne
     @JoinColumn(name = "restaurante_id")
     @Valid
-    @ConvertGroup(to = Groups.RestauranteId.class)
+
     private Restaurante restaurante;
 }

@@ -1,6 +1,10 @@
 package com.algaworks.algafood.api.controller;
 
 
+import com.algaworks.algafood.api.assembler.produto.ProdutoAssembler;
+import com.algaworks.algafood.api.assembler.produto.ProdutoDisassembler;
+import com.algaworks.algafood.api.model.dto.ProdutoDTO;
+import com.algaworks.algafood.api.model.input.ProdutoInput;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.algaworks.algafood.domain.model.exception.ProdutoNaoEncontratoException;
@@ -23,28 +27,41 @@ public class ProdutoController {
     @Autowired
     private CadastroProdutoService produtoService;
 
+    @Autowired
+    private ProdutoAssembler produtoAssembler;
+
+    @Autowired
+    private ProdutoDisassembler produtoDisassembler;
+
     @GetMapping
-    public List<Produto> listar() {
-        return produtoRespository.findAll();
+    public List<ProdutoDTO> listar() {
+        return produtoAssembler.toCollectionDTO(produtoRespository.findAll());
     }
 
     @GetMapping("/{id}")
-    public Produto buscar(@PathVariable Long id) {
-        return produtoService.buscarOuFalhar(id);
+    public ProdutoDTO buscar(@PathVariable Long id) {
+        return produtoAssembler.toDTO(produtoService.buscarOuFalhar(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Produto salvar(@RequestBody @Valid Produto produto) {
-        return produtoService.salvar(produto);
+    public ProdutoDTO salvar(@RequestBody @Valid ProdutoInput produtoInput) {
+
+        try {
+            var produto = produtoDisassembler.toDomainObject(produtoInput);
+            return produtoAssembler.toDTO(produtoService.salvar(produto));
+        }catch (ProdutoNaoEncontratoException e){
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public Produto atualizar(@PathVariable Long id, @RequestBody Produto produto) {
+    public ProdutoDTO atualizar(@PathVariable Long id, @RequestBody ProdutoInput produtoInput) {
         var produtoAtual = produtoService.buscarOuFalhar(id);
-        BeanUtils.copyProperties(produto, produtoAtual, "id");
+
+        produtoDisassembler.copyFromInputToDomainObject(produtoInput, produtoAtual);
         try {
-            return produtoService.salvar(produtoAtual);
+            return produtoAssembler.toDTO(produtoService.salvar(produtoAtual));
         } catch (ProdutoNaoEncontratoException e) {
             throw new NegocioException(e.getMessage(), e);
         }

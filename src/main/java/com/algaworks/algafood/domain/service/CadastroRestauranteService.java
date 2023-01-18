@@ -1,11 +1,8 @@
 package com.algaworks.algafood.domain.service;
 
-import com.algaworks.algafood.api.model.dto.RestauranteDTO;
-import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.repository.RestauranteRepository;
 import org.springframework.beans.BeanUtils;

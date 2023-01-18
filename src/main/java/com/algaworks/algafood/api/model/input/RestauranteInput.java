@@ -14,6 +14,8 @@ public class RestauranteInput {
     @NotBlank
     private String nome;
     @PositiveOrZero
+    @NotBlank
+    @NotNull
     private BigDecimal taxaFrete;
     @NotNull
     @Valid

@@ -1,7 +1,6 @@
 package com.algaworks.algafood.api.assembler.restaurante;
 
 import com.algaworks.algafood.api.model.dto.RestauranteDTO;
-import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.domain.model.Restaurante;
 import java.util.Comparator;
 import java.util.List;
@@ -25,7 +24,7 @@ public class RestauranteAssembler {
     public List<RestauranteDTO> toCollectionDTO(List<Restaurante> restaurantes){
 
         Comparator<RestauranteDTO> comparator = (restaurante1, restaurante2) ->
-                restaurante1.getIdRestauranteDTO().compareTo(restaurante2.getIdRestauranteDTO());
+                restaurante1.getId().compareTo(restaurante2.getId());
 
         return restaurantes.stream()
                 .map(this::toDTO)

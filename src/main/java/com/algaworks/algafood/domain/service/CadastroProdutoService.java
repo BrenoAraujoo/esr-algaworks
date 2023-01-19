@@ -3,12 +3,10 @@ package com.algaworks.algafood.domain.service;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.exception.ProdutoNaoEncontratoException;
 import com.algaworks.algafood.domain.model.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.repository.ProdutoRespository;
 import com.algaworks.algafood.domain.model.repository.RestauranteRepository;
-import java.util.concurrent.RecursiveTask;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -39,6 +37,7 @@ public class CadastroProdutoService {
         var produto = produtoRespository.findById(id);
         try {
             produtoRespository.deleteById(id);
+            produtoRespository.flush();
         }catch (DataIntegrityViolationException e){
             throw  new EntidadeEmUsoException(
                     String.format("Produto com id %d em uso!",id)

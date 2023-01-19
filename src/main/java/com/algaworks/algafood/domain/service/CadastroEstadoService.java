@@ -2,10 +2,8 @@ package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.repository.EstadoRepository;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,6 +26,7 @@ public class CadastroEstadoService {
     public void remover(Long id) {
         try {
             estadoRepository.deleteById(id);
+            estadoRepository.flush();
         } catch (DataIntegrityViolationException e){
             throw new EntidadeEmUsoException(
                     String.format(MSG_ESTADO_EM_USO, id)

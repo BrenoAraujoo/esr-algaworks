@@ -27,7 +27,7 @@ public class CadastroCidadeService {
         Long estadoId = cidade.getEstado().getId();
 
         var estado = estadoService.buscarOuFalhar(estadoId);
-//        cidade.setEstado(estado);
+
         BeanUtils.copyProperties(estado, cidade.getEstado());
         return cidadeRepository.save(cidade);
     }
@@ -37,6 +37,7 @@ public class CadastroCidadeService {
 
         try {
             cidadeRepository.deleteById(id);
+            cidadeRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
                     String.format(MSG_CIDADE_EM_USO, id)

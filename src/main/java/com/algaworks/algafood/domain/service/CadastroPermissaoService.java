@@ -26,7 +26,7 @@ public class CadastroPermissaoService {
     public void remover(Long id) {
         try {
             permissaoRepository.deleteById(id);
-
+            permissaoRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
                     String.format(MSG_PERMISSAO_EM_USO, id)

@@ -15,11 +15,9 @@ public class Permissao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(groups= Groups.PermissaoId.class)
     private Long id;
 
     @Column
-    @NotBlank
     private String nome;
 
     @Column

@@ -28,7 +28,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 public class Restaurante {
 
-    @NotNull(groups = Groups.RestauranteId.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

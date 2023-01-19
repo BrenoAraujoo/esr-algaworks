@@ -1,19 +1,17 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.domain.model.Permissao;
-import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.model.exception.FormaPagamentoNaoEncontradaException;
+import com.algaworks.algafood.api.assembler.permissao.PermissaoAssembler;
+import com.algaworks.algafood.api.assembler.permissao.PermissaoDisassembler;
+import com.algaworks.algafood.api.model.dto.PermissaoDTO;
+import com.algaworks.algafood.api.model.input.PermissaoInput;
+import com.algaworks.algafood.domain.model.exception.NegocioException;
+import com.algaworks.algafood.domain.model.exception.PermissaoNaoEncontradaException;
 import com.algaworks.algafood.domain.model.repository.PermissaoRepository;
 import com.algaworks.algafood.domain.service.CadastroPermissaoService;
-import com.mysql.cj.log.Log;
 import java.util.List;
 import javax.validation.Valid;
-import org.apache.coyote.Response;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,35 +23,48 @@ public class PermissaoController {
     @Autowired
     private CadastroPermissaoService permissaoService;
 
+    @Autowired
+    private PermissaoAssembler permissaoAssembler;
+
+    @Autowired
+    private PermissaoDisassembler permissaoDisassembler;
+
     @GetMapping
-    public List<Permissao> listar() {
-        return permissaoRepository.findAll();
+    public List<PermissaoDTO> listar() {
+        return permissaoAssembler.toCollectionDTO(permissaoRepository.findAll());
     }
 
     @GetMapping("/{id}")
-    public Permissao buscar(@PathVariable Long id) {
-        return permissaoService.buscarOuFalhar(id);
-
+    public PermissaoDTO buscar(@PathVariable Long id) {
+        return permissaoAssembler.toDTO(permissaoService.buscarOuFalhar(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Permissao adicionar(@RequestBody @Valid Permissao permissao) {
-        return permissaoService.salvar(permissao);
+    public PermissaoDTO adicionar(@RequestBody @Valid PermissaoInput permissaoInput) {
+
+        try {
+            var permissao = permissaoDisassembler.toDomainObject(permissaoInput);
+            return permissaoAssembler.toDTO(permissaoService.salvar(permissao));
+
+        } catch (PermissaoNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
+
     }
+
+    @PutMapping("/{id}")
+    public PermissaoDTO atualizar(@PathVariable Long id, @RequestBody PermissaoInput permissaoInput) {
+        var permissaoAtual = permissaoService.buscarOuFalhar(id);
+        permissaoDisassembler.copyFromInputToDomain(permissaoInput,permissaoAtual);
+        var permissaoSalva = permissaoAssembler.toDTO(permissaoRepository.save(permissaoAtual));
+        return permissaoSalva;
+    }
+
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long id) {
         permissaoService.remover(id);
-    }
-
-    @PutMapping("/{id}")
-    public Permissao atualizar(@PathVariable Long id, @RequestBody Permissao permissao) {
-        var permissaoAtual = permissaoService.buscarOuFalhar(id);
-
-        BeanUtils.copyProperties(permissao, permissaoAtual, "id");
-        var permissaoSalva = permissaoRepository.save(permissaoAtual);
-        return permissaoSalva;
     }
 }

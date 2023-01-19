@@ -4,10 +4,12 @@ import com.algaworks.algafood.api.assembler.cidade.CidadeAssembler;
 import com.algaworks.algafood.api.assembler.cidade.CidadeDisassembler;
 import com.algaworks.algafood.api.model.dto.CidadeDTO;
 import com.algaworks.algafood.api.model.input.CidadeInput;
+import com.algaworks.algafood.api.model.views.Views;
 import com.algaworks.algafood.domain.model.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.algaworks.algafood.domain.model.repository.CidadeRepository;
 import com.algaworks.algafood.domain.service.CadastroCidadeService;
+import com.fasterxml.jackson.annotation.JsonView;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +33,12 @@ public class CidadeController {
 
 
     @GetMapping
+    @JsonView(Views.Public.class)
     public List<CidadeDTO> listar() {
         return cidadeAssembler.toCollectionDTO(cidadeRepository.findAll());
     }
 
+    @JsonView(Views.Internal.class)
     @GetMapping("/{id}")
     public CidadeDTO buscar(@PathVariable Long id) {
         return cidadeAssembler.toDTO(cidadeService.buscarOuFalhar(id));

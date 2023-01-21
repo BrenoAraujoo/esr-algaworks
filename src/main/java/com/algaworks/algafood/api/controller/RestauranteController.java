@@ -87,5 +87,23 @@ public class RestauranteController {
 
     }
 
+    @PutMapping("/{id}/ativo")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public RestauranteDTO ativar(@PathVariable Long id){
+        var restauranteAtul = restauranteService.buscarOuFalhar(id);
+        restauranteService.ativar(id);
+        return restauranteAssembler.toDTO(restauranteAtul);
+    }
+
+    @DeleteMapping("{id}/ativo")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public RestauranteDTO inativar(@PathVariable Long id){
+        var restauranteAtual = restauranteService.buscarOuFalhar(id);
+        restauranteService.inativar(id);
+        return restauranteAssembler.toDTO(restauranteAtual);
+    }
+
+
+
 
 }

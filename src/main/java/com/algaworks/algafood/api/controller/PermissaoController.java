@@ -42,14 +42,8 @@ public class PermissaoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PermissaoDTO adicionar(@RequestBody @Valid PermissaoInput permissaoInput) {
-
-        try {
             var permissao = permissaoDisassembler.toDomainObject(permissaoInput);
             return permissaoAssembler.toDTO(permissaoService.salvar(permissao));
-
-        } catch (PermissaoNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
-        }
 
     }
 

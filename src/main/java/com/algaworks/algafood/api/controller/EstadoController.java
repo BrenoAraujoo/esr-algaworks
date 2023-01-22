@@ -50,11 +50,8 @@ public class EstadoController {
     public EstadoDTO salvar(@RequestBody @Valid EstadoInput estadoInput) {
 
         Estado estado = estadoDisassembler.toDomainObject(estadoInput);
-        try {
-            return estadoAssembler.toDTO(estadoService.salvar(estado));
-        }catch (EntidadeNaoEncontradaException e){
-            throw new NegocioException(e.getMessage());
-        }
+        return estadoAssembler.toDTO(estadoService.salvar(estado));
+
     }
 
     @PutMapping("/{id}")

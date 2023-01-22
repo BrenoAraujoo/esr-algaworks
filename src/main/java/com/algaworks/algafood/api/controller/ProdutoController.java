@@ -46,13 +46,9 @@ public class ProdutoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProdutoDTO salvar(@RequestBody @Valid ProdutoInput produtoInput) {
+        var produto = produtoDisassembler.toDomainObject(produtoInput);
+        return produtoAssembler.toDTO(produtoService.salvar(produto));
 
-        try {
-            var produto = produtoDisassembler.toDomainObject(produtoInput);
-            return produtoAssembler.toDTO(produtoService.salvar(produto));
-        }catch (ProdutoNaoEncontratoException e){
-            throw new NegocioException(e.getMessage());
-        }
     }
 
     @PutMapping("/{id}")

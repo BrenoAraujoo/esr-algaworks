@@ -23,6 +23,7 @@ public class Cidade {
     private String nome;
 
     @Valid
+    @NotNull
     @ManyToOne
     private Estado estado;
 

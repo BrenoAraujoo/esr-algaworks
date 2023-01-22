@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 public class CidadeDTO {
 
-    @JsonView(Views.Public.class)
+//    @JsonView(Views.Public.class)
     private Long id;
-    @JsonView(Views.Public.class)
+//    @JsonView(Views.Public.class)
     private String nome;
-    @JsonView(Views.Internal.class)
+//    @JsonView(Views.Internal.class)
     private EstadoDTO estado;
 }

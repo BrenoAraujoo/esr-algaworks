@@ -33,12 +33,12 @@ public class CidadeController {
 
 
     @GetMapping
-    @JsonView(Views.Public.class)
+//    @JsonView(Views.Public.class)
     public List<CidadeDTO> listar() {
         return cidadeAssembler.toCollectionDTO(cidadeRepository.findAll());
     }
 
-    @JsonView(Views.Internal.class)
+//    @JsonView(Views.Internal.class)
     @GetMapping("/{id}")
     public CidadeDTO buscar(@PathVariable Long id) {
         return cidadeAssembler.toDTO(cidadeService.buscarOuFalhar(id));

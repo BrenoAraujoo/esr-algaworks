@@ -1,4 +1,4 @@
-package com.algaworks.algafood.api.model.input;
+package com.algaworks.algafood.api.model.dtoinput;
 
 import java.math.BigDecimal;
 import javax.validation.Valid;
@@ -19,4 +19,8 @@ public class RestauranteInput {
     @NotNull
     @Valid
     private CozinhaIdInput cozinha;
+
+    @Valid
+    @NotNull
+    private EnderecoInput endereco;
 }

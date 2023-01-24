@@ -3,19 +3,14 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.estado.EstadoAssembler;
 import com.algaworks.algafood.api.assembler.estado.EstadoDisassembler;
 import com.algaworks.algafood.api.model.dto.EstadoDTO;
-import com.algaworks.algafood.api.model.input.EstadoInput;
+import com.algaworks.algafood.api.model.dtoinput.EstadoInput;
 import com.algaworks.algafood.domain.model.Estado;
-import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.algaworks.algafood.domain.model.repository.EstadoRepository;
 import com.algaworks.algafood.domain.service.CadastroEstadoService;
 import java.util.List;
 import javax.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

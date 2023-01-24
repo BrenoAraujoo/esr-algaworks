@@ -1,12 +1,7 @@
 package com.algaworks.algafood.api.model.dto;
 
 
-import com.algaworks.algafood.domain.model.Restaurante;
 import java.math.BigDecimal;
-import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 

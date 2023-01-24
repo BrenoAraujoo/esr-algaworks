@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.assembler.restaurante;
 
 
-import com.algaworks.algafood.api.model.input.RestauranteInput;
+import com.algaworks.algafood.api.model.dtoinput.RestauranteInput;
 import com.algaworks.algafood.domain.model.Restaurante;
 import javax.persistence.EntityManager;
 import org.modelmapper.ModelMapper;

@@ -1,4 +1,4 @@
-package com.algaworks.algafood.api.model.input;
+package com.algaworks.algafood.api.model.dtoinput;
 
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;

@@ -3,7 +3,7 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.restaurante.RestauranteAssembler;
 import com.algaworks.algafood.api.assembler.restaurante.RestauranteDisassembler;
 import com.algaworks.algafood.api.model.dto.RestauranteDTO;
-import com.algaworks.algafood.api.model.input.RestauranteInput;
+import com.algaworks.algafood.api.model.dtoinput.RestauranteInput;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.model.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.model.exception.NegocioException;

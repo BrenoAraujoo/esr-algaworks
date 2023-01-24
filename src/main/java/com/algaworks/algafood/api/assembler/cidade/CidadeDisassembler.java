@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.assembler.cidade;
 
 
-import com.algaworks.algafood.api.model.input.CidadeInput;
+import com.algaworks.algafood.api.model.dtoinput.CidadeInput;
 import com.algaworks.algafood.domain.model.Cidade;
 import javax.persistence.EntityManager;
 import org.modelmapper.ModelMapper;
@@ -21,7 +21,7 @@ public class CidadeDisassembler {
 
     }
 
-    public void copyFromInputtoDomainModel(CidadeInput cidadeInput, Cidade cidade){
+    public void copyFromInputToDomainModel(CidadeInput cidadeInput, Cidade cidade){
         entityManager.detach(cidade.getEstado());
         modelMapper.map(cidadeInput,cidade);
         entityManager.clear();

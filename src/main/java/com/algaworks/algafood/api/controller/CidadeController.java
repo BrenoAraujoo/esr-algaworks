@@ -3,13 +3,11 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.cidade.CidadeAssembler;
 import com.algaworks.algafood.api.assembler.cidade.CidadeDisassembler;
 import com.algaworks.algafood.api.model.dto.CidadeDTO;
-import com.algaworks.algafood.api.model.input.CidadeInput;
-import com.algaworks.algafood.api.model.views.Views;
+import com.algaworks.algafood.api.model.dtoinput.CidadeInput;
 import com.algaworks.algafood.domain.model.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.algaworks.algafood.domain.model.repository.CidadeRepository;
 import com.algaworks.algafood.domain.service.CadastroCidadeService;
-import com.fasterxml.jackson.annotation.JsonView;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +58,7 @@ public class CidadeController {
     public CidadeDTO atualizar(@PathVariable Long id, @RequestBody @Valid CidadeInput cidadeInput) {
 
         var cidadeAtual = cidadeService.buscarOuFalhar(id);
-        cidadeDisassembler.copyFromInputtoDomainModel(cidadeInput, cidadeAtual);
+        cidadeDisassembler.copyFromInputToDomainModel(cidadeInput, cidadeAtual);
 //        BeanUtils.copyProperties(cidade, cidadeAtual, "id");
         try {
             return cidadeAssembler.toDTO(cidadeService.salvar(cidadeAtual));

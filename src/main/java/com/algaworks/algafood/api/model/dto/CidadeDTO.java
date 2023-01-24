@@ -1,7 +1,5 @@
 package com.algaworks.algafood.api.model.dto;
 
-import com.algaworks.algafood.api.model.views.Views;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
 

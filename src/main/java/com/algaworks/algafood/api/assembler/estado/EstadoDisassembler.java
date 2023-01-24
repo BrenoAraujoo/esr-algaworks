@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.assembler.estado;
 
 
-import com.algaworks.algafood.api.model.input.EstadoInput;
+import com.algaworks.algafood.api.model.dtoinput.EstadoInput;
 import com.algaworks.algafood.domain.model.Estado;
 import javax.persistence.EntityManager;
 import org.modelmapper.ModelMapper;

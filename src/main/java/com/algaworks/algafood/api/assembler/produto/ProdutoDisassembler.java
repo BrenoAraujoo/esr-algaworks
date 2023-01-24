@@ -1,7 +1,6 @@
 package com.algaworks.algafood.api.assembler.produto;
 
-import com.algaworks.algafood.api.model.dto.ProdutoDTO;
-import com.algaworks.algafood.api.model.input.ProdutoInput;
+import com.algaworks.algafood.api.model.dtoinput.ProdutoInput;
 import com.algaworks.algafood.domain.model.Produto;
 import javax.persistence.EntityManager;
 import org.modelmapper.ModelMapper;

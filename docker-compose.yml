@@ -15,6 +15,14 @@ services:
       - algafood-network
   algafood-api:
     image: brenoaraujoo/algafood-api
+    command: ["/wait-for-it.sh",
+              "algafood-mysql:3306",
+              "-t",
+              "30",
+              "--",
+              "java",
+              "-jar",
+              "api.jar"]
     ports:
       - "8080:8080"
     networks:

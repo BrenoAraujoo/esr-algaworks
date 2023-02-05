@@ -2,8 +2,6 @@ package com.algaworks.algafood.core.modelmapper;
 
 
 import com.algaworks.algafood.api.model.dto.EnderecoDTO;
-import com.algaworks.algafood.api.model.dtoinput.CidadeInput;
-import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Endereco;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -35,8 +33,6 @@ public class ModelMapperConfig {
                 enderecoSrc -> enderecoSrc.getCidade().getEstado().getNome(),
                 (enderecoDest, value) -> enderecoDest.getCidade().setEstado(value)
         );
-
-
         return modelMapper;
     }
 }

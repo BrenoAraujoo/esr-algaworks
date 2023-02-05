@@ -16,7 +16,6 @@ public class RestauranteAssembler {
 
 
     public  RestauranteDTO toDTO(Restaurante restaurante){
-
         return modelMapper.map(restaurante,RestauranteDTO.class);
     }
 

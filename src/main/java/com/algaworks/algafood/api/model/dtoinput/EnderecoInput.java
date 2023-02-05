@@ -1,8 +1,7 @@
 package com.algaworks.algafood.api.model.dtoinput;
 
-import com.algaworks.algafood.api.model.dto.CidadeResumoDTO;
-import com.algaworks.algafood.domain.model.Cidade;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,17 +9,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EnderecoInput {
-    @NotNull
+    @NotBlank
     private String cep;
-    @NotNull
+    @NotBlank
     private String logradouro;
-    @NotNull
+    @NotBlank
     private String numero;
     private String complemento;
-    @NotNull
+    @NotBlank
     private String bairro;
-    @NotNull
     @Valid
+    @NotNull
     private CidadeIdInput cidade;
 
 }

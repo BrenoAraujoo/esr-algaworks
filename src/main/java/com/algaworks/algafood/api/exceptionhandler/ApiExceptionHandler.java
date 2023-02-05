@@ -245,6 +245,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .stream()
                 .map(fieldError ->{
                         String message = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
+
                         return Problem.Field.builder()
                         .name(fieldError.getField())
                         .userMessage(message)

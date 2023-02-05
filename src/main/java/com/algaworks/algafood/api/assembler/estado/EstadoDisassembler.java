@@ -14,16 +14,12 @@ public class EstadoDisassembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    private EntityManager entityManager;
 
     public Estado toDomainObject(EstadoInput estadoInput){
         return modelMapper.map(estadoInput,Estado.class);
     }
 
     public void copyFromInputToDomainObject(EstadoInput estadoInput, Estado estado){
-
         modelMapper.map(estadoInput,estado);
-//        entityManager.clear();
     }
 }

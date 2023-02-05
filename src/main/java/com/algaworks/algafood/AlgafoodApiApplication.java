@@ -1,5 +1,7 @@
 package com.algaworks.algafood;
 
+import com.algaworks.algafood.domain.model.Grupo;
+import com.algaworks.algafood.domain.model.Permissao;
 import com.algaworks.algafood.infrastructure.repository.CustomJpaRepositoryImpl;
 import java.util.TimeZone;
 import org.springframework.boot.ApplicationArguments;

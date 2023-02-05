@@ -67,12 +67,11 @@ insert into permissao (id, nome, descricao) values (1, 'CONSULTAR_COZINHAS','Per
 insert into permissao (id, nome, descricao) values (2, 'EDITAR_COZINHAS','Permite editar cozinhas');
 
 -- Grupo
-insert into grupo (id, nome) values(1, 'Grupo 1');
-insert into grupo (id, nome) values(2, 'Grupo 2');
-insert into grupo (id, nome) values(3, 'Grupo 3');
+insert into grupo (id, nome) values(1, 'Gerente');
+insert into grupo (id, nome) values(2, 'Vendedor');
+insert into grupo (id, nome) values(3, 'Secretária');
+insert into grupo (id, nome) values(4, 'Cadastrador');
 
--- Grupo x Permissao
-insert into grupo_permissao (grupo_id, permissao_id) values (1,1),(1,2),(2,1),(2,2),(3,1);
 
 -- forma de pagamento x restaurantes
 insert into restaurante_forma_pagamento(restaurante_id, forma_pagamento_id) values (1,1), (1,2), (1,3), (2,1), (2,2), (2,3);

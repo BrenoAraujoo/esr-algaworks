@@ -1,8 +1,6 @@
 package com.algaworks.algafood.api.exceptionhandler;
 
-import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.model.exception.NegocioException;
+import com.algaworks.algafood.domain.model.exception.*;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
@@ -49,6 +47,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(SenhaAtualIncorretaException.class)
+    public ResponseEntity<Object> handleSenhaIncorreta(SenhaAtualIncorretaException ex, WebRequest request){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ProblemType problemType = ProblemType.ERRO_SENHA_INCORRETA;
+
+        Problem problem = createProblemBuilder(status,problemType,ex.getMessage())
+                .userMessage(ex.getMessage())
+                .build();
+
+        return handleExceptionInternal(ex,problem,new HttpHeaders(),status,request);
     }
 
     @Override
@@ -257,7 +267,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
 
-        ProblemType problemType = ProblemType.DADOS_INVALIDOS;
+        ProblemType problemType = ProblemType.ERRO_DADOS_INVALIDOS;
 
         Problem problem = createProblemBuilder(status, problemType, detail)
                 .fields(problemFields)

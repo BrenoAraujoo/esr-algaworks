@@ -1,13 +1,13 @@
 package com.algaworks.algafood.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
+
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -18,7 +18,6 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    @NotBlank
     private String nome;
 
     @Column(nullable = false)
@@ -29,7 +28,7 @@ public class Usuario {
 
     @CreationTimestamp
     @Column(nullable = false,columnDefinition = "datetime")
-    private LocalDateTime dataCadastro;
+    private OffsetDateTime dataCadastro;
 
 
 //    @JsonIgnore

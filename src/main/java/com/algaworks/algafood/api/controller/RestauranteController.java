@@ -42,8 +42,6 @@ public class RestauranteController {
         return restauranteAssembler.toCollectionDTO(restauranteRepository.findAll());
     }
 
-
-
     @GetMapping("/{id}")
     public RestauranteDTO buscar(@PathVariable Long id) {
         Restaurante restaurante = restauranteService.buscarOuFalhar(id);

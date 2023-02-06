@@ -46,6 +46,7 @@ public class PermissaoController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public PermissaoDTO atualizar(@PathVariable Long id, @RequestBody PermissaoInput permissaoInput) {
         var permissaoAtual = permissaoService.buscarOuFalhar(id);
         permissaoDisassembler.copyFromInputToDomain(permissaoInput,permissaoAtual);

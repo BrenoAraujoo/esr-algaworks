@@ -41,7 +41,6 @@ public class EstadoController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public EstadoDTO salvar(@RequestBody @Valid EstadoInput estadoInput) {
 
         Estado estado = estadoDisassembler.toDomainObject(estadoInput);
@@ -50,6 +49,7 @@ public class EstadoController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public EstadoDTO atualizar(@PathVariable Long id, @RequestBody @Valid EstadoInput estadoInput) {
         var estadoAtual = estadoService.buscarOuFalhar(id);
         estadoDisassembler.copyFromInputToDomainObject(estadoInput, estadoAtual);

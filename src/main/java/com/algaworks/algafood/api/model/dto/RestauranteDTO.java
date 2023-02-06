@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.model.dto;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,5 +17,6 @@ public class RestauranteDTO {
     private CozinhaDTO cozinha;
 
     private EnderecoDTO endereco;
+
 
 }

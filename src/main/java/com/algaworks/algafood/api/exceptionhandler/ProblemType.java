@@ -10,7 +10,8 @@ public enum ProblemType {
     ERRO_MENSAGEM_ILEGIVEL("/erro-mensagem-ilegivel","Mensagem ilegivel"),
     ERRO_PARAMETRO_INVALIDO("/erro-parametro-invalido","Parâmetro inválido"),
     ERRO_DE_SISTEMA("/erro-de-sistema","Erro no Sistema" ),
-    DADOS_INVALIDOS("/dados-invalidos","Dados inválidos");
+    ERRO_DADOS_INVALIDOS("/dados-invalidos","Dados inválidos"),
+    ERRO_SENHA_INCORRETA ("/senha-incorreta","Senha incorreta");
 
     private String title;
     private String uri;

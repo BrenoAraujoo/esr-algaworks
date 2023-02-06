@@ -39,13 +39,13 @@ public class GrupoController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public GrupoDTO salvar(@RequestBody GrupoInput grupoInput){
         var grupo = grupoDisassembler.toDomainObject(grupoInput);
         return grupoAssembler.toDTO(grupoService.salvar(grupo));
 
     }
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public GrupoDTO atualizar(@PathVariable Long id, @RequestBody GrupoInput grupoInput){
 
         var grupoAtual = grupoService.buscarOufalhar(id);

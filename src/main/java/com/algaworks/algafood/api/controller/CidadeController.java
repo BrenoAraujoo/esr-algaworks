@@ -55,6 +55,7 @@ public class CidadeController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public CidadeDTO atualizar(@PathVariable Long id, @RequestBody @Valid CidadeInput cidadeInput) {
 
         var cidadeAtual = cidadeService.buscarOuFalhar(id);

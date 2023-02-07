@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UsuarioSenhaDTO extends UsuarioDTO {
+public class Senha extends UsuarioDTO {
 
     private String senhaAtual;
     private String novaSenha;

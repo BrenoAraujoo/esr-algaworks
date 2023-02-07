@@ -6,7 +6,7 @@ import com.algaworks.algafood.api.assembler.usuario.UsuarioDisassembler;
 import com.algaworks.algafood.api.model.dto.UsuarioDTO;
 import com.algaworks.algafood.api.model.dtoinput.UsuarioAtualizarInput;
 import com.algaworks.algafood.api.model.dtoinput.UsuarioInput;
-import com.algaworks.algafood.api.model.dtoinput.UsuarioSenhaDTO;
+import com.algaworks.algafood.api.model.dtoinput.Senha;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.service.CadastroUsuarioService;
 import java.util.List;
@@ -48,7 +48,6 @@ public class UsuarioController {
     }
 
     @PutMapping("/{usuarioId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public UsuarioDTO atualizar
             (@RequestBody @Valid UsuarioAtualizarInput usuarioInput, @PathVariable("usuarioId") Long id){
         var usuarioAtual = usuarioService.buscarOuFalhar(id);
@@ -57,15 +56,8 @@ public class UsuarioController {
     }
 
     @PutMapping("/{usuarioId}/senha")
-    public UsuarioDTO atualizarSenha
-            (@RequestBody UsuarioSenhaDTO usuarioSenhaDTO, @PathVariable("usuarioId") Long id){
-
-        var senhaAtual = usuarioSenhaDTO.getSenhaAtual();
-        var novaSenha = usuarioSenhaDTO.getNovaSenha();
-
-        System.out.println("atual " +senhaAtual + "nova senha " + novaSenha);
-        var usuarioAtual = usuarioService.atualizarSenha(id, senhaAtual, novaSenha);
-        return usuarioAssembler.toDTO(usuarioAtual);
+    public void atualizarSenha (@RequestBody @Valid Senha senha, @PathVariable("usuarioId") Long id){
+        usuarioService.atualizarSenha(id, senha.getSenhaAtual(), senha.getNovaSenha());
     }
 
     @DeleteMapping("/{id}")

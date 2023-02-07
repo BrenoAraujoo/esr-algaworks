@@ -11,7 +11,8 @@ public enum ProblemType {
     ERRO_PARAMETRO_INVALIDO("/erro-parametro-invalido","Parâmetro inválido"),
     ERRO_DE_SISTEMA("/erro-de-sistema","Erro no Sistema" ),
     ERRO_DADOS_INVALIDOS("/dados-invalidos","Dados inválidos"),
-    ERRO_SENHA_INCORRETA ("/senha-incorreta","Senha incorreta");
+    ERRO_SENHA_INCORRETA ("/senha-incorreta","Senha incorreta"),
+    ERRO_EMAIL_EM_USO("/email-em-uso","E-mail em uso");
 
     private String title;
     private String uri;

@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -55,7 +56,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemType problemType = ProblemType.ERRO_SENHA_INCORRETA;
 
         Problem problem = createProblemBuilder(status,problemType,ex.getMessage())
-                .userMessage(ex.getMessage())
+                .userMessage(problemType.getTitle())
+                .build();
+
+        return handleExceptionInternal(ex,problem,new HttpHeaders(),status,request);
+    }
+
+    @ExceptionHandler(EmailJaCadastradoException.class)
+    public ResponseEntity<Object> handleEmailEmUso(EmailJaCadastradoException ex, WebRequest request){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ProblemType problemType = ProblemType.ERRO_EMAIL_EM_USO;
+
+        Problem problem = createProblemBuilder(status,problemType,ex.getMessage())
+                .title(problemType.getTitle())
                 .build();
 
         return handleExceptionInternal(ex,problem,new HttpHeaders(),status,request);

@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CadastroRestauranteService {
-    private static final String MSG_RESTAURATE_EM_USO = "Restaurante com id %d está em uso";
+    private static final String MSG_RESTAURANTE_EM_USO = "Restaurante com id %d está em uso";
     @Autowired
     private RestauranteRepository restauranteRepository;
 
@@ -24,6 +24,9 @@ public class CadastroRestauranteService {
 
     @Autowired
     private CadastroCidadeService cidadeService;
+
+    @Autowired
+    private CadastroFormaPagamentoService formaPagamentoService;
 
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
@@ -50,11 +53,27 @@ public class CadastroRestauranteService {
             restauranteRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
-                    String.format(MSG_RESTAURATE_EM_USO, id)
+                    String.format(MSG_RESTAURANTE_EM_USO, id)
             );
         } catch (EmptyResultDataAccessException e) {
             throw new RestauranteNaoEncontradoException(id);
         }
+    }
+
+    @Transactional
+    public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId){
+        var restaurante = buscarOuFalhar(restauranteId);
+        var formaPagamento = formaPagamentoService.buscarOuFalhar(formaPagamentoId);
+
+        restaurante.adicionarFormaPagamento(formaPagamento);
+    }
+
+    @Transactional
+    public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId){
+        var restaurante = buscarOuFalhar(restauranteId);
+        var formaPagamento = formaPagamentoService.buscarOuFalhar(formaPagamentoId);
+
+        restaurante.removerFormaPagamento(formaPagamento);
     }
 
     public Restaurante buscarOuFalhar(Long id) {

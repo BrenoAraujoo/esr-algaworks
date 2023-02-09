@@ -43,6 +43,15 @@ public class CadastroProdutoService {
         }
     }
 
+    @Transactional
+    public void ativarProduto(Produto produto){
+        produto.ativar();
+    }
+    @Transactional
+    public void desativarProduto(Produto produto){
+        produto.desativar();
+    }
+
     public Produto buscarOuFalhar(Long produtoId, Long restauranteId){
         return produtoRespository.findById(produtoId, restauranteId)
                 .orElseThrow(()-> new ProdutoNaoEncontratoException(produtoId, restauranteId));

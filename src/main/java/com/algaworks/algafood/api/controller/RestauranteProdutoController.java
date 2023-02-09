@@ -70,4 +70,18 @@ public class RestauranteProdutoController {
         produtoService.salvar(produto);
         return produtoAssembler.toDTO(produto);
     }
+
+    @PutMapping("/{produtoId}/ativar")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ativar(@PathVariable Long restauranteId, @PathVariable Long produtoId){
+        var produto = produtoService.buscarOuFalhar(produtoId,restauranteId);
+        produtoService.ativarProduto(produto);
+    }
+
+    @DeleteMapping("/{produtoId}/desativar")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void desativar(@PathVariable Long restauranteId, @PathVariable Long produtoId){
+        var produto = produtoService.buscarOuFalhar(produtoId,restauranteId);
+        produtoService.desativarProduto(produto);
+    }
 }

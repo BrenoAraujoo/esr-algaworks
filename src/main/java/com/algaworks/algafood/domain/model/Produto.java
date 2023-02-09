@@ -29,7 +29,13 @@ public class Produto {
 
     @ManyToOne
     @JoinColumn(name = "restaurante_id")
-    @Valid
-
     private Restaurante restaurante;
+
+    public void ativar(){
+        setAtivo(true);
+    }
+
+    public void desativar(){
+        setAtivo(false);
+    }
 }

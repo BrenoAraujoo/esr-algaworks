@@ -41,7 +41,4 @@ public class RestauranteFormaPagamentoController {
         restauranteService.associarFormaPagamento(restauranteId,formaPagamentoId);
     }
 
-
-
-
 }

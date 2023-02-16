@@ -70,18 +70,13 @@ public class RestauranteController {
     public RestauranteDTO atualizar(@PathVariable Long id, @RequestBody @Valid RestauranteInput restauranteInput) {
         var restauranteAtual = restauranteService.buscarOuFalhar(id);
 
-//        var restaurante = restauranteDisassembler.toDomainObject(restauranteInput);
-        restauranteDisassembler.copyFromInputToDomainObject(restauranteInput,restauranteAtual);
-//        BeanUtils.copyProperties
-//                (restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
-
+        restauranteDisassembler.copyFromInputToDomainObject(restauranteInput, restauranteAtual);
         try {
             return restauranteAssembler.toDTO(restauranteService.salvar(restauranteAtual));
 
         } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage(), e);
         }
-
     }
 
 
@@ -94,21 +89,31 @@ public class RestauranteController {
 
     @PutMapping("/{id}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public RestauranteDTO ativar(@PathVariable Long id){
+    public RestauranteDTO ativar(@PathVariable Long id) {
         var restauranteAtul = restauranteService.buscarOuFalhar(id);
         restauranteService.ativar(id);
         return restauranteAssembler.toDTO(restauranteAtul);
     }
 
-    @DeleteMapping("{id}/ativo")
+    @DeleteMapping("/{id}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public RestauranteDTO inativar(@PathVariable Long id){
+    public RestauranteDTO inativar(@PathVariable Long id) {
         var restauranteAtual = restauranteService.buscarOuFalhar(id);
         restauranteService.inativar(id);
         return restauranteAssembler.toDTO(restauranteAtual);
     }
 
+    @PutMapping("/{restauranteId}/fechamento")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void fechar(@PathVariable Long restauranteId) {
+        restauranteService.fechar(restauranteId);
+    }
 
+    @PutMapping("/{restauranteId}/abertura")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void abrir(@PathVariable Long restauranteId) {
+        restauranteService.abrir(restauranteId);
+    }
 
 
 }

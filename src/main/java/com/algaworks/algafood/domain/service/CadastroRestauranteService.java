@@ -91,4 +91,16 @@ public class CadastroRestauranteService {
         var restauranteAtual = buscarOuFalhar(id);
         restauranteAtual.inativar();
     }
+
+    @Transactional
+    public void fechar(Long id){
+        var restauranteAtual = buscarOuFalhar(id);
+        restauranteAtual.fechar();
+    }
+
+    @Transactional
+    public void abrir(Long id){
+        var restauranteAtual = buscarOuFalhar(id);
+        restauranteAtual.abrir();
+    }
 }

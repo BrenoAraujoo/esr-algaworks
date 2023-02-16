@@ -47,12 +47,12 @@ insert into cidade (id, nome, estado_id) values (5, 'Uberlândia', 3);
 insert into cidade (id, nome, estado_id) values (6, 'Diadema', 1);
 insert into cidade (id, nome, estado_id) values (7, 'São Bernardo do Campo', 1);
 -- Restaurante
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (1, 'Xing Ling',12.0, 1, utc_timestamp, utc_timestamp, true);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (2, 'Thai Gourmet',13.0, 4, utc_timestamp, utc_timestamp, false);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (3, 'Thai Delivery',13.0, 4, utc_timestamp, utc_timestamp, true);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (4, 'La massa',13.0, 3, utc_timestamp, utc_timestamp, false);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (5, 'Paris 6',0.0, 5, utc_timestamp, utc_timestamp, false);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_bairro, endereco_cep, endereco_logradouro, endereco_numero, endereco_cidade_id, data_cadastro, data_atualizacao, ativo) values (6, 'Feijao de corda',10.0, 2,'Jd. Guanhembu','04814-444','Predio 1','11',1, utc_timestamp, utc_timestamp, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_bairro, endereco_cep, endereco_logradouro, endereco_numero, endereco_cidade_id, data_cadastro, data_atualizacao, ativo, aberto) values (1, 'Feijao de corda',10.0, 2,'Jd. Guanhembu','04814-444','Predio 1','11',1, utc_timestamp, utc_timestamp, true, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto) values (2, 'Thai Gourmet',13.0, 4, utc_timestamp, utc_timestamp, false, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto) values (3, 'Thai Delivery',13.0, 4, utc_timestamp, utc_timestamp, true, false);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto) values (4, 'La massa',13.0, 3, utc_timestamp, utc_timestamp, false, false);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto) values (5, 'Paris 6',0.0, 5, utc_timestamp, utc_timestamp, false, false);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto) values (6, 'Xing Ling',12.0, 1, utc_timestamp, utc_timestamp, true, false);
 
 
 -- Forma Pagamento

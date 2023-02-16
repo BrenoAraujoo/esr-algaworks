@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,5 +12,6 @@ public class EnderecoDTO {
     private String numero;
     private String complemento;
     private String bairro;
+
     private  CidadeResumoDTO cidade;
 }

@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.service;
 
+import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.model.exception.EmailJaCadastradoException;
 import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
@@ -25,6 +26,9 @@ public class CadastroUsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+
+    @Autowired
+    private CadastroGrupoService grupoService;
 
     public Usuario buscar(Long id) {
         return buscarOuFalhar(id);
@@ -70,6 +74,19 @@ public class CadastroUsuarioService {
             throw new NegocioException(SENHA_ATUAL_INCORRETA);
         usuario.setSenha(novaSenha);
 
+    }
+
+    @Transactional
+    public void associarGrupo (Long usuarioId, Long grupoId){
+        var usuario = buscarOuFalhar(usuarioId);
+        var grupo = grupoService.buscarOufalhar(grupoId);
+        usuario.adicionarGrupo(grupo);
+    }
+    @Transactional
+    public void desaassociarGrupo (Long usuarioId, Long grupoId){
+        var usuario = buscarOuFalhar(usuarioId);
+        var grupo = grupoService.buscarOufalhar(grupoId);
+        usuario.removerGrupo(grupo);
     }
 
 

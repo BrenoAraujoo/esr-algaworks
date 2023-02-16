@@ -31,7 +31,7 @@ public class GrupoController {
 
     @GetMapping
     public List<GrupoDTO> listar(){
-        return grupoAssembler.listToDTO(grupoRepository.findAll());
+        return grupoAssembler.toCollectionDTO(grupoRepository.findAll());
     }
     @GetMapping("/{id}")
     public GrupoDTO buscar(@PathVariable Long id){

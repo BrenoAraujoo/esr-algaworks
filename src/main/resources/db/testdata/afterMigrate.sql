@@ -84,6 +84,8 @@ insert into restaurante_forma_pagamento(restaurante_id, forma_pagamento_id) valu
 insert into usuario (id, nome, email, senha, data_cadastro) values (1,'Breno','breno.souza.araujo@hotmail.com', '123123',utc_timestamp);
 insert into usuario (id, nome, email, senha, data_cadastro) values (2,'Rafaela','rafaela@hotmail.com','123123', utc_timestamp);
 insert into usuario (id, nome, email, senha, data_cadastro) values (3,'Elias','elias@hotmail.com','123123', utc_timestamp);
+-- usuario x grupo
+insert into usuario_grupo (usuario_id, grupo_id) values (1,1),(1,2),(2,1),(2,2);
 
 
 -- Produto

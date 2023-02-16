@@ -28,6 +28,8 @@ public class CadastroRestauranteService {
     @Autowired
     private CadastroFormaPagamentoService formaPagamentoService;
 
+    @Autowired
+    private CadastroUsuarioService usuarioService;
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
@@ -42,8 +44,6 @@ public class CadastroRestauranteService {
         BeanUtils.copyProperties(cidade,restaurante.getEndereco().getCidade());
         return restauranteRepository.save(restaurante);
     }
-
-
 
 
     @Transactional
@@ -102,5 +102,19 @@ public class CadastroRestauranteService {
     public void abrir(Long id){
         var restauranteAtual = buscarOuFalhar(id);
         restauranteAtual.abrir();
+    }
+
+    @Transactional
+    public void associarResponsavel(Long restauranteId, Long usuarioId){
+        var restaurante = buscarOuFalhar(restauranteId);
+        var usuario = usuarioService.buscarOuFalhar(usuarioId);
+        restaurante.adicionarResponsavel(usuario);
+    }
+
+    @Transactional
+    public void desaassociarResponsavel(Long restauranteId, Long usuarioId){
+        var restaurante = buscarOuFalhar(restauranteId);
+        var usuario = usuarioService.buscarOuFalhar(usuarioId);
+        restaurante.removerResponsavel(usuario);
     }
 }

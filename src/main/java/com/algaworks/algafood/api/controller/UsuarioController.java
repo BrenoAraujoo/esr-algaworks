@@ -8,18 +8,18 @@ import com.algaworks.algafood.api.model.dtoinput.UsuarioAtualizarInput;
 import com.algaworks.algafood.api.model.dtoinput.UsuarioInput;
 import com.algaworks.algafood.api.model.dtoinput.Senha;
 import com.algaworks.algafood.domain.model.Usuario;
-import com.algaworks.algafood.domain.model.exception.UsuarioNaoEncontradoException;
 import com.algaworks.algafood.domain.model.repository.UsuarioRepository;
 import com.algaworks.algafood.domain.service.CadastroUsuarioService;
 import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping(value = "/usuarios",
+        produces = MediaType.APPLICATION_JSON_VALUE)
 public class UsuarioController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class UsuarioController {
     @GetMapping
     public List<UsuarioDTO> listar(){
         List<Usuario> usuarios = usuarioService.listar();
-        return usuarioAssembler.listToDTO(usuarios);
+        return usuarioAssembler.toCollectionDTO(usuarios);
     }
 
     @GetMapping("/{usuarioId}")

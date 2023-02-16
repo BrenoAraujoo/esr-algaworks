@@ -32,14 +32,6 @@ public class CadastroGrupoService {
 
     @Transactional
     public Grupo salvar(Grupo grupo){
-            var permissoesId = grupo.getPermissoes().stream()
-                    .map(Permissao::getId)
-                    .toList();
-
-        for (Long id : permissoesId) {
-            var permissao = permissaoService.buscarOuFalhar(id);
-            grupo.getPermissoes().add(permissao);
-        }
         return grupoRepository.save(grupo);
     }
 
@@ -53,5 +45,18 @@ public class CadastroGrupoService {
         }catch (EmptyResultDataAccessException e){
             throw new GrupoNaoEncontradoException(id);
         }
+    }
+
+    @Transactional
+    public void associarPermissao(Long grupoId, Long permissaoId){
+        var grupo = buscarOufalhar(grupoId);
+        var permissao = permissaoService.buscarOuFalhar(permissaoId);
+        grupo.adicionarPermissao(permissao);
+    }
+    @Transactional
+    public void desaassociarPermissao(Long grupoId, Long permissaoId){
+        var grupo = buscarOufalhar(grupoId);
+        var permissao = permissaoService.buscarOuFalhar(permissaoId);
+        grupo.removerPermissao(permissao);
     }
 }

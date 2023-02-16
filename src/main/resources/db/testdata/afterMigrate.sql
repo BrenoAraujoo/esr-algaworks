@@ -65,12 +65,16 @@ insert into forma_pagamento (id, descricao) values (3, 'Dinheiro');
 -- Permissao
 insert into permissao (id, nome, descricao) values (1, 'CONSULTAR_COZINHAS','Permite consultar cozinhas');
 insert into permissao (id, nome, descricao) values (2, 'EDITAR_COZINHAS','Permite editar cozinhas');
+insert into permissao (id, nome, descricao) values (3, 'EXCLUIR_COZINHAS','Permite editar e excluir cozinhas');
 
 -- Grupo
 insert into grupo (id, nome) values(1, 'Gerente');
 insert into grupo (id, nome) values(2, 'Vendedor');
 insert into grupo (id, nome) values(3, 'Secretária');
 insert into grupo (id, nome) values(4, 'Cadastrador');
+
+
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1);
 
 
 -- forma de pagamento x restaurantes
@@ -81,8 +85,6 @@ insert into usuario (id, nome, email, senha, data_cadastro) values (1,'Breno','b
 insert into usuario (id, nome, email, senha, data_cadastro) values (2,'Rafaela','rafaela@hotmail.com','123123', utc_timestamp);
 insert into usuario (id, nome, email, senha, data_cadastro) values (3,'Elias','elias@hotmail.com','123123', utc_timestamp);
 
--- Usuarios x Grupos
--- insert into usuario_grupo (usuario_id, grupo_id) values (1,1),(1,2),(2,1);
 
 -- Produto
 

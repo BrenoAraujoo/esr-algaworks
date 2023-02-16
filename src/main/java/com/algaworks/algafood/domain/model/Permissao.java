@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 public class Permissao {
 
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

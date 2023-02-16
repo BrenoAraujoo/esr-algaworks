@@ -8,9 +8,7 @@ import lombok.Setter;
 public class PermissaoDTO {
 
     private Long id;
-
     private String nome;
-
     private String descricao;
 
 }

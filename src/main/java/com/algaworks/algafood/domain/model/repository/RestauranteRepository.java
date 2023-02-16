@@ -13,10 +13,6 @@ public interface RestauranteRepository extends CustomJpaRepository<Restaurante, 
 
     List<Restaurante> find(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal);
 
-    //Essa Query  nao retorna a lista ordenada ordenado ...
-//    @Query("Select distinct r from Restaurante r join fetch " +
-//            "r.cozinha left join fetch r.formasPagamento ")
-//    List<Restaurante> findAll();
 
 
 

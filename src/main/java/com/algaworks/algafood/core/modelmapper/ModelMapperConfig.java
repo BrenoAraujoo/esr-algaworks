@@ -6,7 +6,6 @@ import com.algaworks.algafood.api.model.dto.PedidoDTO;
 import com.algaworks.algafood.api.model.dto.UsuarioDTO;
 import com.algaworks.algafood.domain.model.Endereco;
 import com.algaworks.algafood.domain.model.Pedido;
-import com.algaworks.algafood.domain.model.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,12 +36,6 @@ public class ModelMapperConfig {
                 enderecoSrc -> enderecoSrc.getCidade().getEstado().getNome(),
                 (enderecoDest, value) -> enderecoDest.getCidade().setEstado(value)
         );
-
-        var pedidoToPedidoDTOTypeMap = modelMapper.typeMap(Pedido.class, PedidoDTO.class);
-        pedidoToPedidoDTOTypeMap.addMapping(pedidoSrc -> pedidoSrc.getUsuario(),
-                (pedidoDest, value) -> pedidoDest.setCliente((UsuarioDTO) value));
-
-
 
         return modelMapper;
     }

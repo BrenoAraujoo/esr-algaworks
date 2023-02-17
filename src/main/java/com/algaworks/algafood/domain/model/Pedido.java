@@ -34,9 +34,6 @@ public class Pedido {
     @CreationTimestamp
     private OffsetDateTime dataCriacao;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private FormaPagamento formaPagamento;
 
     @Column(columnDefinition = "datetime")
     private OffsetDateTime dataConfirmacao;
@@ -44,11 +41,13 @@ public class Pedido {
     private OffsetDateTime dataCancelamento;
 
     private OffsetDateTime dataEntrega;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private FormaPagamento formaPagamento;
 
     @ManyToOne
     @JoinColumn(name = "usuario_cliente_id", nullable = false)
-    private Usuario usuario;
+    private Usuario cliente;
 
     @ManyToOne
     @JoinColumn(name = "restaurante_id", nullable = false)

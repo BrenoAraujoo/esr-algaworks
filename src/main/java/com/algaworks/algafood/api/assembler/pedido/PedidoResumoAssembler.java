@@ -11,18 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PedidoAssembler {
+public class PedidoResumoAssembler {
 
     @Autowired
     private ModelMapper mapper;
 
 
-    public PedidoDTO toDTO(Pedido pedido){
-        return mapper.map(pedido, PedidoDTO.class);
+    public PedidoResumoDTO toDTO(Pedido pedido){
+        return mapper.map(pedido, PedidoResumoDTO.class);
     }
 
 
-    public List<PedidoDTO> toCollectionDTO(Collection<Pedido> pedidos){
+    public List<PedidoResumoDTO> toCollectionDTO(Collection<Pedido> pedidos){
         return pedidos.stream()
                 .map(this::toDTO)
                 .toList();

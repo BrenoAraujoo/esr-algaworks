@@ -10,6 +10,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 
+import static com.algaworks.algafood.domain.model.StatusPedido.CRIADO;
+import static javax.persistence.EnumType.STRING;
+
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -25,7 +28,8 @@ public class Pedido {
     @Embedded
     private Endereco enderecoEntrega;
 
-    private StatusPedido status;
+    @Enumerated(STRING)
+    private StatusPedido status = CRIADO;
 
     @CreationTimestamp
     private OffsetDateTime dataCriacao;

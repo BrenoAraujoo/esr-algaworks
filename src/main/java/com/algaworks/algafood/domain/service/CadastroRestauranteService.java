@@ -6,6 +6,9 @@ import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.repository.RestauranteRepository;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -85,6 +88,17 @@ public class CadastroRestauranteService {
         var restauranteAtual = buscarOuFalhar(id);
         restauranteAtual.ativar();
     }
+
+    @Transactional
+    public void ativar(List<Long> restaurantesIds){
+        restaurantesIds.forEach(this::ativar);
+    }
+    @Transactional
+    public void inativar(List<Long> restaurantesIds){
+        restaurantesIds.forEach(this::inativar);
+    }
+
+
 
     @Transactional
     public void inativar(Long id){

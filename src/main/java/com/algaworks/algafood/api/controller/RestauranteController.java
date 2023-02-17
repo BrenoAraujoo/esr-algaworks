@@ -1,22 +1,15 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.assembler.formaPagamento.FormaPagamentoAssembler;
 import com.algaworks.algafood.api.assembler.restaurante.RestauranteAssembler;
 import com.algaworks.algafood.api.assembler.restaurante.RestauranteDisassembler;
-import com.algaworks.algafood.api.model.dto.FormaPagamentoDTO;
 import com.algaworks.algafood.api.model.dto.RestauranteDTO;
 import com.algaworks.algafood.api.model.dtoinput.RestauranteInput;
-import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.model.exception.CidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.model.exception.CozinhaNaoEncontradaException;
-import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.model.exception.NegocioException;
+import com.algaworks.algafood.domain.model.exception.*;
 import com.algaworks.algafood.domain.model.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.model.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -91,8 +84,28 @@ public class RestauranteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public RestauranteDTO ativar(@PathVariable Long id) {
         var restauranteAtul = restauranteService.buscarOuFalhar(id);
-        restauranteService.ativar(id);
+        restauranteService.inativar(id);
         return restauranteAssembler.toDTO(restauranteAtul);
+    }
+
+    @PutMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ativarMultiplos(@RequestBody List<Long> restaurantesIds){
+        try {
+            restauranteService.ativar(restaurantesIds);
+        }catch (RestauranteNaoEncontradoException ex){
+            throw new NegocioException(ex.getMessage(),ex);
+        }
+    }
+
+    @DeleteMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inativarMultiplos(@RequestBody List<Long> restaurantesIds){
+        try {
+            restauranteService.inativar(restaurantesIds);
+        }catch (RestauranteNaoEncontradoException ex){
+            throw new NegocioException(ex.getMessage(),ex);
+        }
     }
 
     @DeleteMapping("/{id}/ativo")

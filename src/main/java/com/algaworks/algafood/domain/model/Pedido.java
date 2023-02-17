@@ -19,11 +19,11 @@ import static javax.persistence.EnumType.STRING;
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(nullable = false)
+    private BigDecimal subtotal;
     private BigDecimal taxaFrete;
-    @Column(nullable = false)
     private BigDecimal valorTotal;
     @Embedded
     private Endereco enderecoEntrega;
@@ -38,6 +38,7 @@ public class Pedido {
     @JoinColumn(nullable = false)
     private FormaPagamento formaPagamento;
 
+    @Column(columnDefinition = "datetime")
     private OffsetDateTime dataConfirmacao;
 
     private OffsetDateTime dataCancelamento;
@@ -55,4 +56,23 @@ public class Pedido {
 
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens = new ArrayList<>();
+
+    public void calcularValorTotal() {
+        this.subtotal =
+                getItens()
+                        .stream()
+                        .map(ItemPedido::getPrecoTotal)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        this.valorTotal = this.subtotal.add(this.taxaFrete);
+    }
+
+    public void definirFrete(){
+        setTaxaFrete( restaurante.getTaxaFrete());
+    }
+    public void atribuirPedidoAosItens(){
+        this.itens.forEach(item -> item.setPedido(this)); // Algaworks
+//        this.itens.forEach(item -> item.setPedido(item.getPedido()));
+    }
+
 }

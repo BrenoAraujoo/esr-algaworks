@@ -24,5 +24,4 @@ public class RestauranteDTO {
 
     private List<UsuarioDTO> responsaveis;
 
-
 }

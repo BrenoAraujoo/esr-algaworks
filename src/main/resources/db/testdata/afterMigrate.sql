@@ -105,22 +105,20 @@ insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (
 insert into restaurante_usuario_responsavel (usuario_id, restaurante_id) values (1,1),(1,2),(2,1);
 
 -- Pedido
-insert into pedido (id, taxa_frete, valor_total, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_bairro, endereco_numero, status
-,data_criacao, data_confirmacao, data_cancelamento, data_entrega) values (1, 20.00, 2000.00, 1, 1, 1, 1, '04814480','São Paulo','Jd. Guanhembu','11','ENTREGUE',utc_timestamp,utc_timestamp,utc_timestamp,utc_timestamp);
-insert into pedido (id, taxa_frete, valor_total, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_bairro, endereco_numero, status
-,data_criacao, data_confirmacao, data_cancelamento, data_entrega) values (2, 20.00, 2000.00, 2, 2, 2, 2, '04814480','São Paulo','Jd. Guanhembu','12','CANCELADO',utc_timestamp,utc_timestamp,utc_timestamp,utc_timestamp);
-insert into pedido (id, taxa_frete, valor_total, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_bairro, endereco_numero, status
-,data_criacao, data_confirmacao, data_cancelamento, data_entrega) values (3, 20.00, 2000.00, 3, 2, 2, 2, '04814480','São Paulo','Jd. Guanhembu','31','CONFIRMADO',utc_timestamp,utc_timestamp,utc_timestamp,utc_timestamp);
+insert into pedido (id, taxa_frete, subtotal,valor_total, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_bairro, endereco_numero, status
+,data_criacao, data_confirmacao, data_entrega) values (1, 20.00, 200.00, 2000.00, 1, 1, 1, 1, '04814480','São Paulo','Jd. Guanhembu','11','ENTREGUE',utc_timestamp,utc_timestamp,utc_timestamp);
+insert into pedido (id, taxa_frete, subtotal, valor_total, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_bairro, endereco_numero, status
+,data_criacao, data_confirmacao, data_cancelamento) values (2, 20.00, 200.00, 2000.00, 2, 2, 2, 2, '04814480','São Paulo','Jd. Guanhembu','12','CANCELADO',utc_timestamp,utc_timestamp,utc_timestamp );
+
 
 -- Item pedido
 insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (1, 2, 20.00, 40.00, 'Entrega em prédio', 1, 1);
 insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (2, 10, 10.00, 20.00, 'Entregar até as 12:00', 1, 2);
 insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (3, 3, 15.00, 45.00, 'Embalar bem', 1, 3);
+
 insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (4, 2, 20.00, 40.00, 'Entrega em prédio', 2, 1);
 insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (5, 10, 10.00, 20.00, 'Entregar até as 12:00', 2, 2);
 insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (6, 3, 15.00, 45.00, 'Embalar bem', 2, 3);
-insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (7, 2, 20.00, 40.00, 'Entrega em prédio', 3, 3);
-insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (8, 10, 10.00, 20.00, 'Entregar até as 12:00', 3, 4);
-insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (9, 3, 15.00, 45.00, 'Embalar bem', 3, 1);
+
 
 

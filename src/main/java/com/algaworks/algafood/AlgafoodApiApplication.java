@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories(repositoryBaseClass = CustomJpaRepositoryImpl.class)
-public class AlgafoodApiApplication implements ApplicationRunner {
+public class AlgafoodApiApplication  {
 
 	public static void main(String[] args) {
 
@@ -21,10 +21,4 @@ public class AlgafoodApiApplication implements ApplicationRunner {
 		SpringApplication.run(AlgafoodApiApplication.class, args);
 	}
 
-
-
-	@Override
-	public void run(ApplicationArguments args) throws Exception {
-
-	}
 }

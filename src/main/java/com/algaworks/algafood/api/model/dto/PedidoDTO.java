@@ -16,14 +16,13 @@ public class PedidoDTO {
     private Long id;
     private BigDecimal taxaFrete;
     private BigDecimal valorTotal;
-    private EnderecoDTO enderecoEntrega;
+    private BigDecimal subtotal;
     private StatusPedido status;
-    private FormaPagamentoDTO formaPagamento;
     private OffsetDateTime dataCriacao;
-    private OffsetDateTime dataConfirmacao;
-    private OffsetDateTime dataCancelamento;
-    private OffsetDateTime dataEntrega;
-    private UsuarioDTO cliente;
+    private EnderecoDTO enderecoEntrega;
+    private FormaPagamentoDTO formaPagamento;
+
     private RestauranteResumoDTO restaurante;
+    private UsuarioDTO cliente;
     private List<ItemPedidoDTO> itens = new ArrayList<>();
 }

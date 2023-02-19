@@ -27,6 +27,8 @@ alter table permissao auto_increment =1;
 alter table produto auto_increment =1;
 alter table restaurante auto_increment =1;
 alter table usuario auto_increment =1;
+alter table pedido auto_increment = 1;
+alter table item_pedido auto_increment = 1;
 
 
 
@@ -93,32 +95,30 @@ insert into usuario_grupo (usuario_id, grupo_id) values (1,1),(1,2),(2,1),(2,2);
 
 -- Produto
 
-insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (1, 'Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 1, 1);
-insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (2, 'Camarão tailandês', '16 camarões grandes ao molho picante', 110, 1, 1);
-insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (3, 'Salada picante com carne grelhada', 'Salada de folhas com cortes finos de carne bovina grelhada e nosso molho especial de pimenta vermelha', 87.20, 1, 2);
-insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (4, 'Garlic Naan', 'Pão tradicional indiano com cobertura de alho', 21, 1, 3);
-insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (5, 'Murg Curry', 'Cubos de frango preparados com molho curry e especiarias', 43, 1, 3);
-insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (6, 'Bife Ancho', 'Corte macio e suculento, com dois dedos de espessura, retirado da parte dianteira do contrafilé', 79, 1, 4);
-insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (7, 'T-Bone', 'Corte muito saboroso, com um osso em formato de T, sendo de um lado o contrafilé e do outro o filé mignon', 89, 1, 4);
-insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (8, 'Sanduíche X-Tudo', 'Sandubão com muito queijo, hamburger bovino, bacon, ovo, salada e maionese', 19, 1, 5);
-insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (9, 'Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 1, 1);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Camarão tailandês', '16 camarões grandes ao molho picante', 110, 1, 1);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Salada picante com carne grelhada', 'Salada de folhas com cortes finos de carne bovina grelhada e nosso molho especial de pimenta vermelha', 87.20, 1, 2);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Garlic Naan', 'Pão tradicional indiano com cobertura de alho', 21, 1, 3);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Murg Curry', 'Cubos de frango preparados com molho curry e especiarias', 43, 1, 3);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Bife Ancho', 'Corte macio e suculento, com dois dedos de espessura, retirado da parte dianteira do contrafilé', 79, 1, 4);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('T-Bone', 'Corte muito saboroso, com um osso em formato de T, sendo de um lado o contrafilé e do outro o filé mignon', 89, 1, 4);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Sanduíche X-Tudo', 'Sandubão com muito queijo, hamburger bovino, bacon, ovo, salada e maionese', 19, 1, 5);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
+
+-- restaurante - usuario
 insert into restaurante_usuario_responsavel (usuario_id, restaurante_id) values (1,1),(1,2),(2,1);
 
 -- Pedido
-insert into pedido (id, taxa_frete, subtotal,valor_total, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_bairro, endereco_numero, status
-,data_criacao, data_confirmacao, data_entrega) values (1, 20.00, 200.00, 2000.00, 1, 1, 1, 1, '04814480','São Paulo','Jd. Guanhembu','11','ENTREGUE',utc_timestamp,utc_timestamp,utc_timestamp);
-insert into pedido (id, taxa_frete, subtotal, valor_total, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_bairro, endereco_numero, status
-,data_criacao, data_confirmacao, data_cancelamento) values (2, 20.00, 200.00, 2000.00, 2, 2, 2, 2, '04814480','São Paulo','Jd. Guanhembu','12','CANCELADO',utc_timestamp,utc_timestamp,utc_timestamp );
-
+insert into pedido (id, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep,
+                    endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
+	                status, data_criacao, subtotal, taxa_frete, valor_total)
+values (1, 1, 1, 1, 1, '38400-000', 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil',
+        'CRIADO', utc_timestamp, 298.90, 10, 308.90);
 
 -- Item pedido
 insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (1, 2, 20.00, 40.00, 'Entrega em prédio', 1, 1);
 insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (2, 10, 10.00, 20.00, 'Entregar até as 12:00', 1, 2);
-insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (3, 3, 15.00, 45.00, 'Embalar bem', 1, 3);
 
-insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (4, 2, 20.00, 40.00, 'Entrega em prédio', 2, 1);
-insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (5, 10, 10.00, 20.00, 'Entregar até as 12:00', 2, 2);
-insert into item_pedido (id, quantidade, preco_unitario, preco_total, observacao, pedido_id, produto_id) values (6, 3, 15.00, 45.00, 'Embalar bem', 2, 3);
 
 
 

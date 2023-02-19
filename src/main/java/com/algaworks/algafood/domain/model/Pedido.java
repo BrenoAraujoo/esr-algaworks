@@ -53,25 +53,20 @@ public class Pedido {
     @JoinColumn(name = "restaurante_id", nullable = false)
     private Restaurante restaurante;
 
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens = new ArrayList<>();
 
     public void calcularValorTotal() {
-        this.subtotal =
-                getItens()
-                        .stream()
-                        .map(ItemPedido::getPrecoTotal)
-                        .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        this.valorTotal = this.subtotal.add(this.taxaFrete);
+        getItens().forEach(ItemPedido::calcularPrecoTotal);  //Calcula o preço total do ItemPedido
+
+        this.subtotal = getItens()                          //Sub total recebe a soma do precoTotal de cada Item de pedido
+                .stream()
+                .map(ItemPedido::getPrecoTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        this.valorTotal = this.subtotal.add(this.taxaFrete);        //Valor total recebe o subtotal + taxafrete
     }
 
-    public void definirFrete(){
-        setTaxaFrete( restaurante.getTaxaFrete());
-    }
-    public void atribuirPedidoAosItens(){
-        this.itens.forEach(item -> item.setPedido(this)); // Algaworks
-//        this.itens.forEach(item -> item.setPedido(item.getPedido()));
-    }
 
 }

@@ -30,9 +30,6 @@ public class CadastroUsuarioService {
     @Autowired
     private CadastroGrupoService grupoService;
 
-    public Usuario buscar(Long id) {
-        return buscarOuFalhar(id);
-    }
 
     public List<Usuario> listar() {
         return usuarioRepository.findAll();

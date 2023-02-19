@@ -41,7 +41,7 @@ public class UsuarioController {
 
     @GetMapping("/{usuarioId}")
     public UsuarioDTO buscar(@PathVariable ("usuarioId") Long id){
-        return usuarioAssembler.toDTO(usuarioService.buscar(id));
+        return usuarioAssembler.toDTO(usuarioService.buscarOuFalhar(id));
     }
 
     @PostMapping

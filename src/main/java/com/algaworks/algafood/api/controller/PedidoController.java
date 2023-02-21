@@ -7,20 +7,20 @@ import com.algaworks.algafood.api.assembler.pedido.PedidoResumoAssembler;
 import com.algaworks.algafood.api.model.dto.PedidoDTO;
 import com.algaworks.algafood.api.model.dto.PedidoResumoDTO;
 import com.algaworks.algafood.api.model.dtoinput.PedidoInput;
-import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.algaworks.algafood.domain.model.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.EmissaoPedidoService;
+import com.algaworks.algafood.domain.service.FluxoPedidoService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pedidos")
 public class PedidoController {
-
 
     @Autowired
     private PedidoAssembler pedidoAssembler;
@@ -36,6 +36,9 @@ public class PedidoController {
 
     @Autowired
     private EmissaoPedidoService pedidoService;
+
+    @Autowired
+    private FluxoPedidoService fluxoPedidoService;
 
     @GetMapping
     public List<PedidoResumoDTO> listar(){
@@ -65,4 +68,8 @@ public class PedidoController {
             throw new NegocioException(ex.getMessage());
         }
     }
+
+
+
+
 }

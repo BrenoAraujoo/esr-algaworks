@@ -19,6 +19,10 @@ public class PedidoDTO {
     private BigDecimal subtotal;
     private StatusPedido status;
     private OffsetDateTime dataCriacao;
+    private OffsetDateTime dataConfirmacao;
+    private OffsetDateTime dataEntrega;
+    private OffsetDateTime dataCancelamento;
+
     private EnderecoDTO enderecoEntrega;
     private FormaPagamentoDTO formaPagamento;
 

@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.model.Pedido;
+import com.algaworks.algafood.domain.model.StatusPedido;
 import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.algaworks.algafood.domain.model.exception.PedidoNaoEncontradaException;
@@ -87,6 +88,8 @@ public class EmissaoPedidoService {
             item.setPrecoUnitario(produto.getPreco());
         });
     }
+
+
 
     public Pedido buscarOuFalhar(Long id) {
         return pedidoRepository.findById(id).orElseThrow(() -> new PedidoNaoEncontradaException(id));

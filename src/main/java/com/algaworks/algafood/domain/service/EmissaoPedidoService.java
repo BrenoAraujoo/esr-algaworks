@@ -6,6 +6,7 @@ import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.algaworks.algafood.domain.model.exception.PedidoNaoEncontradaException;
 import com.algaworks.algafood.domain.model.repository.PedidoRepository;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class EmissaoPedidoService {
 
-    private final String MSG_PEDIDO_EM_USO = "Pedido com id %d está em uso e não pode ser removido";
+    private final String MSG_PEDIDO_EM_USO = "Pedido com código %s está em uso e não pode ser removido";
 
 
     @Autowired
@@ -44,13 +45,13 @@ public class EmissaoPedidoService {
         return pedidoRepository.save(pedido);
     }
 
-    public void remover(Long id) {
+    public void remover(String codigo) {
         try {
-            pedidoRepository.deleteById(id);
+            pedidoRepository.deleteByCodigo(codigo);
         } catch (DataIntegrityViolationException ex) {
-            throw new EntidadeEmUsoException(String.format(MSG_PEDIDO_EM_USO, id));
+            throw new EntidadeEmUsoException(String.format(MSG_PEDIDO_EM_USO, codigo));
         } catch (EmptyResultDataAccessException ex) {
-            throw new PedidoNaoEncontradaException(id);
+            throw new PedidoNaoEncontradaException(codigo);
         }
     }
 
@@ -82,18 +83,16 @@ public class EmissaoPedidoService {
             var produto = produtoService.buscarOuFalhar(
                     produtoId, restauranteId);
 
-
             item.setPedido(pedido);
             item.setProduto(produto);
             item.setPrecoUnitario(produto.getPreco());
         });
     }
 
-
-
-    public Pedido buscarOuFalhar(Long id) {
-        return pedidoRepository.findById(id).orElseThrow(() -> new PedidoNaoEncontradaException(id));
+    public Pedido buscarOuFalhar(String codigo) {
+        return pedidoRepository.findByCodigo(codigo)
+                .orElseThrow(() ->
+                        new PedidoNaoEncontradaException(codigo));
     }
-
 
 }

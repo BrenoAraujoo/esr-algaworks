@@ -15,7 +15,6 @@ import com.algaworks.algafood.domain.service.FluxoPedidoService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -46,9 +45,9 @@ public class PedidoController {
         return pedidoResumoAssembler.toCollectionDTO(pedidos);
     }
 
-    @GetMapping("/{pedidoId}")
-    public PedidoDTO buscar(@PathVariable Long pedidoId){
-        var pedido = pedidoService.buscarOuFalhar(pedidoId);
+    @GetMapping("/{codigoPedido}")
+    public PedidoDTO buscar(@PathVariable String codigoPedido){
+        var pedido = pedidoService.buscarOuFalhar(codigoPedido);
         return pedidoAssembler.toDTO(pedido);
     }
 
@@ -68,8 +67,6 @@ public class PedidoController {
             throw new NegocioException(ex.getMessage());
         }
     }
-
-
 
 
 }

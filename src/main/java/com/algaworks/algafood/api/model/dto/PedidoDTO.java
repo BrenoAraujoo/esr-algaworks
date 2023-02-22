@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.model.dto;
 
 
-import com.algaworks.algafood.domain.model.*;
+import com.algaworks.algafood.domain.model.StatusPedido;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -13,7 +13,8 @@ import lombok.Setter;
 @Setter
 public class PedidoDTO {
 
-    private Long id;
+    private String codigo;
+
     private BigDecimal taxaFrete;
     private BigDecimal valorTotal;
     private BigDecimal subtotal;

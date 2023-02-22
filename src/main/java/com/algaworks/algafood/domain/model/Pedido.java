@@ -1,10 +1,12 @@
 package com.algaworks.algafood.domain.model;
 
 
+import com.algaworks.algafood.domain.model.exception.NegocioException;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,11 +19,13 @@ import static javax.persistence.EnumType.STRING;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class Pedido {
+    public static final String MSG_STATUS_INVALIDO = "O status do pedido %s não pode ser alterado de %s pra %s";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
 
+    private String codigo;
     private BigDecimal subtotal;
     private BigDecimal taxaFrete;
     private BigDecimal valorTotal;
@@ -66,6 +70,34 @@ public class Pedido {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         this.valorTotal = this.subtotal.add(this.taxaFrete);        //Valor total recebe o subtotal + taxafrete
+    }
+
+    public void confirmar(){
+        setStatus(StatusPedido.CONFIRMADO);
+        setDataConfirmacao(OffsetDateTime.now());
+    }
+
+    public void entregar(){
+        setStatus(StatusPedido.ENTREGUE);
+        setDataEntrega(OffsetDateTime.now());
+    }
+
+    public void cancelar(){
+        setStatus(StatusPedido.CANCELADO);
+        setDataCancelamento(OffsetDateTime.now());
+    }
+
+    public void setStatus(StatusPedido novoStatus){
+        if (getStatus().naoPodeAlterarPara(novoStatus)) {
+            throw new NegocioException(String.format(MSG_STATUS_INVALIDO,
+                    getCodigo(), getStatus().getDescricao(), novoStatus.getDescricao()));
+        }
+        this.status = novoStatus;
+    }
+
+    @PrePersist
+    private void gerarCodigo(){
+        setCodigo(UUID.randomUUID().toString());
     }
 
 

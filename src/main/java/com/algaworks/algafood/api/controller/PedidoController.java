@@ -5,16 +5,18 @@ import com.algaworks.algafood.api.assembler.pedido.PedidoAssembler;
 import com.algaworks.algafood.api.assembler.pedido.PedidoDesassembler;
 import com.algaworks.algafood.api.assembler.pedido.PedidoResumoAssembler;
 import com.algaworks.algafood.api.model.dto.PedidoDTO;
-import com.algaworks.algafood.api.model.dto.PedidoResumoDTO;
 import com.algaworks.algafood.api.model.dtoinput.PedidoInput;
 import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.algaworks.algafood.domain.model.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.EmissaoPedidoService;
 import com.algaworks.algafood.domain.service.FluxoPedidoService;
-import java.util.List;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import javax.validation.Valid;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,10 +41,29 @@ public class PedidoController {
     @Autowired
     private FluxoPedidoService fluxoPedidoService;
 
+//    @GetMapping
+//    public List<PedidoResumoDTO> listar(){
+//        var pedidos = pedidoRepository.findAll();
+//        return pedidoResumoAssembler.toCollectionDTO(pedidos);
+//    }
+
     @GetMapping
-    public List<PedidoResumoDTO> listar(){
+    public MappingJacksonValue listar(@RequestParam(required = false) String campos){
         var pedidos = pedidoRepository.findAll();
-        return pedidoResumoAssembler.toCollectionDTO(pedidos);
+        var pedidosDTO = pedidoAssembler.toCollectionDTO(pedidos);
+        MappingJacksonValue pedidosWrapper = new MappingJacksonValue(pedidosDTO);
+
+        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+        filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.serializeAll());
+
+        if(StringUtils.isNotBlank(campos)){
+            filterProvider.addFilter
+                ("pedidoFilter", SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
+        }
+
+        pedidosWrapper.setFilters(filterProvider);
+
+        return pedidosWrapper;
     }
 
     @GetMapping("/{codigoPedido}")

@@ -1,18 +1,14 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.assembler.formaPagamento.FormaPagamentoAssembler;
 import com.algaworks.algafood.api.assembler.produto.ProdutoAssembler;
 import com.algaworks.algafood.api.assembler.produto.ProdutoDisassembler;
-import com.algaworks.algafood.api.model.dto.FormaPagamentoDTO;
 import com.algaworks.algafood.api.model.dto.ProdutoDTO;
 import com.algaworks.algafood.api.model.dtoinput.ProdutoInput;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.repository.ProdutoRespository;
-import com.algaworks.algafood.domain.model.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroProdutoService;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,11 +35,17 @@ public class RestauranteProdutoController {
     @Autowired
     private ProdutoDisassembler produtoDisassembler;
     @GetMapping
-    public List<ProdutoDTO> listarPorRestaurante(@PathVariable Long restauranteId){
+    public List<ProdutoDTO> listarPorRestaurante(@PathVariable Long restauranteId, @RequestParam(required = false) boolean incluirInativos){
         var restaurante = restauranteService.buscarOuFalhar(restauranteId);
-        var produtos = produtoRespository.findByRestaurante(restaurante);
+        List<Produto> produtos = null;
+        if(incluirInativos){
+            produtos = produtoRespository.findTodosByRestaurante(restaurante);
+        }else {
+             produtos = produtoRespository.findAtivosByRestaurante(restaurante);
+        }
         return produtoAssembler.toCollectionDTO(produtos);
     }
+
 
     @GetMapping("/{produtoId}")
     public ProdutoDTO buscarPordutoPorRestaurante(@PathVariable Long produtoId, @PathVariable Long restauranteId){
@@ -51,6 +53,8 @@ public class RestauranteProdutoController {
 
         return produtoAssembler.toDTO(produto);
     }
+
+
 
     @PostMapping
     public ProdutoDTO salvar(@PathVariable Long restauranteId, @Valid @RequestBody ProdutoInput produtoInput){

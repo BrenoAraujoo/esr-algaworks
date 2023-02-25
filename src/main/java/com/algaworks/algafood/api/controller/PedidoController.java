@@ -5,12 +5,16 @@ import com.algaworks.algafood.api.assembler.pedido.PedidoAssembler;
 import com.algaworks.algafood.api.assembler.pedido.PedidoDesassembler;
 import com.algaworks.algafood.api.assembler.pedido.PedidoResumoAssembler;
 import com.algaworks.algafood.api.model.dto.PedidoDTO;
+import com.algaworks.algafood.api.model.dto.PedidoResumoDTO;
 import com.algaworks.algafood.api.model.dtoinput.PedidoInput;
 import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.algaworks.algafood.domain.model.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.EmissaoPedidoService;
 import com.algaworks.algafood.domain.service.FluxoPedidoService;
+import com.algaworks.algafood.infrastructure.repository.filter.PedidoFilter;
+import com.algaworks.algafood.infrastructure.repository.spec.PedidoSpecs;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,11 +41,12 @@ public class PedidoController {
     @Autowired
     private FluxoPedidoService fluxoPedidoService;
 
-//    @GetMapping
-//    public List<PedidoResumoDTO> listar(){
-//        var pedidos = pedidoRepository.findAll();
-//        return pedidoResumoAssembler.toCollectionDTO(pedidos);
-//    }
+    @GetMapping
+    public List<PedidoResumoDTO> pesquisar(PedidoFilter filtro){
+
+        var pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
+        return pedidoResumoAssembler.toCollectionDTO(pedidos);
+    }
 
 //    @GetMapping
 //    public MappingJacksonValue listar(@RequestParam(required = false) String campos){

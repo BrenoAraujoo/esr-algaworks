@@ -23,12 +23,12 @@ public class Problem {
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private OffsetDateTime timestamp;
 
-    private List<Field> fields;
+    private List<Objects> objects;
 
 
     @Getter
     @Builder
-    public static class Field{
+    public static class Objects {
         private String name;
         private String userMessage;
     }

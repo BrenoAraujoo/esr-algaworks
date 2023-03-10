@@ -14,6 +14,7 @@ import com.algaworks.algafood.domain.service.EmissaoPedidoService;
 import com.algaworks.algafood.domain.service.FluxoPedidoService;
 import com.algaworks.algafood.infrastructure.repository.filter.PedidoFilter;
 import com.algaworks.algafood.infrastructure.repository.spec.PedidoSpecs;
+import java.lang.reflect.Field;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ public class PedidoController {
         var pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
         return pedidoResumoAssembler.toCollectionDTO(pedidos);
     }
+
 
 //    @GetMapping
 //    public MappingJacksonValue listar(@RequestParam(required = false) String campos){

@@ -16,8 +16,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,6 +32,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String MSG_GENERICA_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. "
             + "Tente novamente e se o problema persistir, entre em contato "
             + "com o administrador do sistema.";
+    public static final String MSG_CAMPOS_INVALIDOS = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
 
     @Autowired
     private MessageSource messageSource;
@@ -51,27 +53,27 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(SenhaAtualIncorretaException.class)
-    public ResponseEntity<Object> handleSenhaIncorreta(SenhaAtualIncorretaException ex, WebRequest request){
+    public ResponseEntity<Object> handleSenhaIncorreta(SenhaAtualIncorretaException ex, WebRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ProblemType problemType = ProblemType.ERRO_SENHA_INCORRETA;
 
-        Problem problem = createProblemBuilder(status,problemType,ex.getMessage())
+        Problem problem = createProblemBuilder(status, problemType, ex.getMessage())
                 .userMessage(problemType.getTitle())
                 .build();
 
-        return handleExceptionInternal(ex,problem,new HttpHeaders(),status,request);
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(EmailJaCadastradoException.class)
-    public ResponseEntity<Object> handleEmailEmUso(EmailJaCadastradoException ex, WebRequest request){
+    public ResponseEntity<Object> handleEmailEmUso(EmailJaCadastradoException ex, WebRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ProblemType problemType = ProblemType.ERRO_EMAIL_EM_USO;
 
-        Problem problem = createProblemBuilder(status,problemType,ex.getMessage())
+        Problem problem = createProblemBuilder(status, problemType, ex.getMessage())
                 .title(problemType.getTitle())
                 .build();
 
-        return handleExceptionInternal(ex,problem,new HttpHeaders(),status,request);
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
 
     @Override
@@ -194,6 +196,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
 
+
     private ResponseEntity<Object> handlePropertyBinding
             (PropertyBindingException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
@@ -259,33 +262,41 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @Override
+    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return handleValidationInternal(ex, headers, status, request, ex.getBindingResult());
+    }
+
+    @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid
             (MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return handleValidationInternal(ex, headers, status, request, ex.getBindingResult());
+    }
 
-        BindingResult bindingResult = ex.getBindingResult();
+    private ResponseEntity<Object> handleValidationInternal(Exception ex, HttpHeaders headers, HttpStatus status, WebRequest request, BindingResult bindingResult) {
+        ProblemType problemType = ProblemType.ERRO_DADOS_INVALIDOS;
+        String detail = MSG_CAMPOS_INVALIDOS;
 
-        List<Problem.Field> problemFields = bindingResult.getFieldErrors()
+
+        List<Problem.Objects> problemObjects = bindingResult.getAllErrors()
                 .stream()
-                .map(fieldError ->{
-                        String message = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
+                .map(objectError -> {
 
-                        return Problem.Field.builder()
-                        .name(fieldError.getField())
-                        .userMessage(message)
-                        .build();
-                        })
+                    String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
+
+                    String name = objectError.getObjectName();
+                    if (objectError instanceof FieldError) {
+                        name = ((FieldError) objectError).getField();
+                    }
+                    return Problem.Objects.builder()
+                            .name(name)
+                            .userMessage(message)
+                            .build();
+                })
                 .toList();
 
-        String fieldErrors = joinField(problemFields);
-
-        String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
-
-        ProblemType problemType = ProblemType.ERRO_DADOS_INVALIDOS;
-
         Problem problem = createProblemBuilder(status, problemType, detail)
-                .fields(problemFields)
-                .userMessage("Um ou mais campos estão inválidos." +
-                        " Por favor, corrija e tente novamente")
+                .objects(problemObjects)
+                .userMessage(MSG_CAMPOS_INVALIDOS)
                 .build();
 
         return handleExceptionInternal(ex, problem, headers, status, request);
@@ -301,9 +312,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .collect(Collectors.joining("."));
     }
 
-    private String joinField(List<Problem.Field> list){
+    private String joinField(List<Problem.Objects> list) {
         return list.stream()
-                .map(Problem.Field::getName)
+                .map(Problem.Objects::getName)
                 .collect(Collectors.joining(" e "));
 
     }

@@ -14,10 +14,11 @@ import com.algaworks.algafood.domain.service.EmissaoPedidoService;
 import com.algaworks.algafood.domain.service.FluxoPedidoService;
 import com.algaworks.algafood.infrastructure.repository.filter.PedidoFilter;
 import com.algaworks.algafood.infrastructure.repository.spec.PedidoSpecs;
-import java.lang.reflect.Field;
-import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -42,12 +43,34 @@ public class PedidoController {
     @Autowired
     private FluxoPedidoService fluxoPedidoService;
 
-    @GetMapping
-    public List<PedidoResumoDTO> pesquisar(PedidoFilter filtro){
+//    @GetMapping
+//    public List<PedidoResumoDTO> pesquisar(PedidoFilter filtro){
+//
+//        var pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
+//        return pedidoResumoAssembler.toCollectionDTO(pedidos);
+//    }
 
-        var pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
-        return pedidoResumoAssembler.toCollectionDTO(pedidos);
+
+//    @GetMapping
+//    public Page<PedidoResumoDTO> pesquisar(PedidoFilter filtro, Pageable pageable){
+//
+//        var pedidosPage =
+//                pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
+//        var pedidoDTO = pedidoResumoAssembler.toCollectionDTO(pedidosPage.getContent());
+//        var pedidoPageDTO = new PageImpl<>(pedidoDTO,pageable,pedidosPage.getTotalElements());
+//        return pedidoPageDTO;
+//    }
+
+    @GetMapping
+    public Page<PedidoResumoDTO> pesquisar(PedidoFilter filtro, Pageable pageable){
+        var pedidosPage =
+                pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
+        var pedidoDTO = pedidoResumoAssembler.toCollectionDTO(pedidosPage.getContent());
+        var pedidoPageDTO = new PageImpl<>(pedidoDTO,pageable,pedidosPage.getTotalElements());
+        return pedidoPageDTO;
     }
+
+
 
 
 //    @GetMapping

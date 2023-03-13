@@ -71,6 +71,5 @@ public class CozinhaController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long id) {
             cozinhaService.remover(id);
-
         }
     }

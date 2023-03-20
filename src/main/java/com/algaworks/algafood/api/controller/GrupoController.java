@@ -9,6 +9,9 @@ import com.algaworks.algafood.domain.model.repository.GrupoRepository;
 import com.algaworks.algafood.domain.service.CadastroGrupoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +36,8 @@ public class GrupoController {
     public List<GrupoDTO> listar(){
         return grupoAssembler.toCollectionDTO(grupoRepository.findAll());
     }
+
+
     @GetMapping("/{id}")
     public GrupoDTO buscar(@PathVariable Long id){
         return grupoAssembler.toDTO(grupoService.buscarOufalhar(id));

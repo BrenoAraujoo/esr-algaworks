@@ -10,6 +10,9 @@ import com.algaworks.algafood.domain.service.CadastroEstadoService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +36,7 @@ public class EstadoController {
     public List<EstadoDTO> listar() {
         return estadoAssembler.toCollectionDTO(estadoRespository.findAll());
     }
+
 
     @GetMapping("/{id}")
     public EstadoDTO buscar(@PathVariable Long id) {

@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.assembler.pedido.PedidoResumoAssembler;
 import com.algaworks.algafood.api.model.dto.PedidoDTO;
 import com.algaworks.algafood.api.model.dto.PedidoResumoDTO;
 import com.algaworks.algafood.api.model.dtoinput.PedidoInput;
+import com.algaworks.algafood.core.data.PageableTranslator;
 import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.algaworks.algafood.domain.model.repository.PedidoRepository;
@@ -14,11 +15,15 @@ import com.algaworks.algafood.domain.service.EmissaoPedidoService;
 import com.algaworks.algafood.domain.service.FluxoPedidoService;
 import com.algaworks.algafood.infrastructure.repository.filter.PedidoFilter;
 import com.algaworks.algafood.infrastructure.repository.spec.PedidoSpecs;
+import java.util.HashMap;
+import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -62,14 +67,16 @@ public class PedidoController {
 //    }
 
     @GetMapping
-    public Page<PedidoResumoDTO> pesquisar(PedidoFilter filtro, Pageable pageable){
+    public Page<PedidoResumoDTO> pesquisar(PedidoFilter filtro, @PageableDefault(size = 10) Pageable pageable){
+        pageable = traduzirPageable(pageable);
+
         var pedidosPage =
                 pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
+
         var pedidoDTO = pedidoResumoAssembler.toCollectionDTO(pedidosPage.getContent());
         var pedidoPageDTO = new PageImpl<>(pedidoDTO,pageable,pedidosPage.getTotalElements());
         return pedidoPageDTO;
     }
-
 
 
 
@@ -104,8 +111,6 @@ public class PedidoController {
             // TODO pegar usuario autenticado
 
         var novoPedido = pedidoDesassembler.toDomainObject(pedidoInput);
-//        novoPedido.setCliente(new Usuario());
-//        novoPedido.getCliente().setId(1L);
 
         novoPedido = pedidoService.emitir(novoPedido);
         return pedidoAssembler.toDTO(pedidoService.emitir(novoPedido));
@@ -115,5 +120,15 @@ public class PedidoController {
         }
     }
 
+    private Pageable traduzirPageable(Pageable apiPageable){
+    var map = Map.of
+            (       "codigo","codigo",
+                    "nomeCliente","cliente.nome",
+                    "restauranteNome","restaurante.nome",
+                    "valorTotal","valor.total"
+
+            );
+        return PageableTranslator.translate(apiPageable,map);
+    }
 
 }

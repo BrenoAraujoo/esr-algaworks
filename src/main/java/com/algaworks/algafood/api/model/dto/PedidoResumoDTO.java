@@ -4,8 +4,6 @@ package com.algaworks.algafood.api.model.dto;
 import com.algaworks.algafood.domain.model.StatusPedido;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +16,9 @@ public class PedidoResumoDTO {
     private BigDecimal valorTotal;
     private StatusPedido status;
     private OffsetDateTime dataCriacao;
-    private UsuarioDTO cliente;
+    //private UsuarioDTO cliente;
+
+    private String nomeCliente;
     private RestauranteResumoDTO restaurante;
 
 }
